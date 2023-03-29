@@ -1,14 +1,15 @@
 ---
+#- name: Run urbackup docker container
+#  community.docker.docker_container:
+#    name: urbackup-server
+#    image: uroni/urbackup-server
+#    state: started
+#    restart_policy: unless-stopped
+#    published_ports:
+#      - 55413-55415:55413-55415
+#      - 35623:35623/udp
+#    volumes:
+#      - /storage/backup:/backups
+#      - /media/database:/var/urbackup
 - name: Run urbackup docker container
-  docker_container:
-    name: urbackup-server
-    image: uroni/urbackup-server
-    state: started
-    restart_policy: unless-stopped
-    published_ports:
-      - 55413-55415:55413-55415
-      - 35623:35623/udp
-    volumes:
-      - /storage/backup:/backups
-      - /media/database:/var/urbackup
-
+  ansible.builtin.command: docker run -d --name urbackup-server -v /storage/backup:/backups -v /media/database:/var/urbackup --restart unless-stopped -p 55413-55415:55413-55415 -p 35623:35623/udp uroni/urbackup-server
