@@ -11,5 +11,17 @@
 #    volumes:
 #      - /storage/backup:/backups
 #      - /media/database:/var/urbackup
+- name: Remove urbackup images
+  ansible.builtin.command: docker rmi -f uroni\/urbackup-server
+- name: Remove old urbackup-server
+  ansible.builtin.command: docker rm -f urbackup-server
 - name: Run urbackup docker container
-  ansible.builtin.command: docker run -d --name urbackup-server -v /storage/backup:/backups -v /media/database:/var/urbackup --restart unless-stopped -p 55413-55415:55413-55415 -p 35623:35623/udp uroni/urbackup-server
+  ansible.builtin.command: docker run -d --name urbackup-server -v /storage/backup:/backups -v /urbackup/database:/var/urbackup -v /urbackup/log:/var/log/ --restart unless-stopped -p 55413-55415:55413-55415 -p 35623:35623/udp uroni/urbackup-server
+- name: Update urbackup docker container
+  ansible.builtin.command: docker exec -u 0 urbackup-server apt update
+- name: Upgrade urbackup docker container
+  ansible.builtin.command: docker exec -u 0 urbackup-server apt upgrade -y
+- name: Install libguestfs-tools urbackup docker container
+  ansible.builtin.command: docker exec -u 0 urbackup-server apt install -y libguestfs-tools
+- name: Remove urbackup images
+  ansible.builtin.command: docker rmi -f uroni\/urbackup-server
