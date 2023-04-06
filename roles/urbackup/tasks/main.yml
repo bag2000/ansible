@@ -25,3 +25,5 @@
   ansible.builtin.command: docker exec -u 0 urbackup-server apt install -y libguestfs-tools
 - name: Remove urbackup images
   ansible.builtin.command: docker rmi -f uroni\/urbackup-server
+- name: Remove urbackup images
+  ansible.builtin.command: docker restart urbackup-server

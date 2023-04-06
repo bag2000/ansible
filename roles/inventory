@@ -1,5 +1,5 @@
 all:
   hosts:
-    192.168.12.71:
+    95.165.224.86:
       ansible_user: divit_pro
 #      ansible_port: 50022
