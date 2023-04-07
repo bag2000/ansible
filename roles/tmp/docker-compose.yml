@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  pritunl:
+    image: my-pritunl
+    container_name: pritunl
+    hostname: pritunl
+    environment:
+      TZ: "Europe/Moscow"
+    networks:
+      - pritunl-net
+    links:
+      - mongo
+    ports:
+      - 8443:443
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    hostname: mongo
+    environment:
+      TZ: "Europe/Moscow"
+    networks:
+      - pritunl-net
+    ports:
+      - 27017:27017
+
+networks:
+  pritunl-net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.26.0/24
