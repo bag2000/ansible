@@ -1,0 +1,12 @@
+- name: Create pritunl_data dir
+  file:
+    path: /pritunl_data
+    state: directory
+    mode: '0760'
+    group: docker
+    owner: root
+
+- name: Copy Dockerfile, docker-compose.yml, startbind.sh to "{{ ansible_user_dir }}"
+  copy:
+    src: Dockerfile
+    dest: /pritunl_data/Dockerfile
