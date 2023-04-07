@@ -1,12 +1,54 @@
-- name: Create pritunl_data dir
-  file:
-    path: /pritunl_data
-    state: directory
-    mode: '0760'
-    group: docker
-    owner: root
+# Mongo
+- name: Create mongo volume for bases
+  ansible.builtin.command: docker volume create mongo-db
 
-- name: Copy Dockerfile, docker-compose.yml, startbind.sh to "{{ ansible_user_dir }}"
-  copy:
-    src: Dockerfile
-    dest: /pritunl_data/Dockerfile
+- name: Create mongo volume for configdbs
+  ansible.builtin.command: docker volume create mongo-configdb
+
+- name: Stop old mongo container
+  ansible.builtin.command: docker stop mongo
+  ignore_errors: true
+
+- name: Delete old mongo container
+  ansible.builtin.command: docker rm -f mongo
+
+- name: Run mongo container
+  ansible.builtin.command: docker run -d -v mongo-db:/data/db -v mongo-configdb:/data/configdb --name mongo -p 27017:27017 --restart always mongo:4.4.20-rc0-focal
+
+# Pritunl
+
+- name: Add key
+  ansible.builtin.apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+
+- name: Add repo pritunl
+  ansible.builtin.apt_repository:
+    repo: deb http://repo.pritunl.com/stable/apt {{ ansible_distribution_release }} main
+
+- name: Install pritunl
+  ansible.builtin.apt:
+    name: pritunl
+    state: latest
+
+- name: Start and enable pritunl
+  ansible.builtin.service:
+    name: pritunl
+    enabled: true
+    state: started
+
+- name: Get setup key
+  ansible.builtin.command: pritunl setup-key
+  register: pritunl_setup_key
+
+- name: Show setup key
+  ansible.builtin.debug:
+    msg: "{{ pritunl_setup_key.stdout }}"
+
+- name: Get login password
+  ansible.builtin.command: pritunl reset-password
+  register: pritunl_login_password
+
+- name: Show login password
+  ansible.builtin.debug:
+    msg: "{{ pritunl_login_password.stdout }}"
