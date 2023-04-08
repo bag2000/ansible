@@ -1,33 +1,27 @@
-version: "3"
-
+version: '3'
 services:
   pritunl:
-    image: my-pritunl
     container_name: pritunl
-    hostname: pritunl
-    environment:
-      TZ: "Europe/Moscow"
-    networks:
-      - pritunl-net
-    links:
+    image: bagerz2000/pritunl:latest
+    restart: always
+    privileged: true
+    network_mode: host
+    volumes:
+      - 'pritunl-data:/var/lib/pritunl'
+    depends_on:
       - mongo
-    ports:
-      - 8443:443
 
   mongo:
-    image: mongo
+    image: mongo:4.4.20-rc0-focal
     container_name: mongo
-    hostname: mongo
-    environment:
-      TZ: "Europe/Moscow"
-    networks:
-      - pritunl-net
+    restart: always
     ports:
       - 27017:27017
+    volumes:
+      - 'mongo-datadb:/data/db'
+      - 'mongo-configdb:/data/configdb'
 
-networks:
-  pritunl-net:
-    ipam:
-      driver: default
-      config:
-        - subnet: 10.10.26.0/24
+volumes:
+  pritunl-data:
+  mongo-datadb:
+  mongo-configdb:
