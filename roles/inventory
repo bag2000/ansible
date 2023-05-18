@@ -4,3 +4,4 @@ all:
       ansible_ssh_host: 95.165.224.86
       ansible_user: divit_pro
       ansible_port: 3322
+
