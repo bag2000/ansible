@@ -1,0 +1,113 @@
+---
+- name: Install default Nginx Web Servers
+  hosts: new
+  become: yes
+  gather_facts: true
+
+  vars:
+    packages: ['net-tools']
+    ports_tcp_for_all: ['4']
+    ports_udp_for_all: ['2']
+    ports_tcp_for_one: ['3']
+    ports_udp_for_one: ['1']
+    ip: '192.168.12.17'
+    save: no
+
+  tasks:
+    - block: # ============ RedHat ============
+      - name: Отключение firewalld
+        ansible.builtin.systemd_service:
+          name: firewalld
+          enabled: false
+          state: stopped
+      - name: Установка iptables-services
+        ansible.builtin.yum:
+          name: 'iptables-services'
+          state: latest
+      - name: Включение iptables
+        ansible.builtin.systemd_service:
+          name: iptables
+          enabled: true
+          state: started
+      when: ansible_os_family == "RedHat"
+
+    - block: # ============ Debian ============
+      - name: Устанавливаем iptables-persistent
+        ansible.builtin.apt:
+          name: iptables-persistent
+          state: latest
+      when: ansible_os_family == "Debian"
+
+    - name: Получение открытых портов pritunl - TCP
+      ansible.builtin.shell:
+        cmd: netstat -tulpn | grep openvpn | grep tcp | awk {'print $4'} | grep -o '[0-9]\+' | grep -v '^0' ; exit 0
+      register: pritunl_tcp
+    - name: Получение открытых портов pritunl - UDP
+      ansible.builtin.shell:
+        cmd: netstat -tulpn | grep openvpn | grep udp | awk {'print $4'} | grep -o '[0-9]\+' | grep -v '^0' ; exit 0
+      register: pritunl_udp
+    - name: Получение ssh порта
+      ansible.builtin.shell:
+        cmd: cat /etc/ssh/sshd_config | grep ^Port | awk {'print $2'} ; exit 0
+      register: ssh
+
+    - name: Сброс фаервола, меняем политику на раззрешение всех входящих 
+      ansible.builtin.shell:
+        cmd: |
+          iptables --policy INPUT ACCEPT
+          iptables -F INPUT
+          iptables -A INPUT -p all -m state --state ESTABLISHED,RELATED -j ACCEPT
+          iptables -A INPUT -i lo -j ACCEPT
+
+
+    - name: Разрешаем ssh прописанный в sshd_config
+      ansible.builtin.shell:
+        cmd: iptables -A INPUT -p tcp --dport {{ssh.stdout}} -s {{ip}} -j ACCEPT
+      when: ssh.stdout != ""
+    - name: Разрешаем ssh (22 порт)
+      ansible.builtin.shell:
+        cmd: iptables -A INPUT -p tcp --dport 22 -s {{ip}} -j ACCEPT
+      when: ssh.stdout == ""
+
+    - name: Разрешаем tcp порты pritunl
+      ansible.builtin.shell:
+        cmd: iptables -A INPUT -p tcp --dport {{item}} -j ACCEPT
+      with_items: '{{pritunl_tcp.stdout_lines}}'
+      when: pritunl_tcp.stdout != ""
+    - name: Разрешаем udp порты pritunl
+      ansible.builtin.shell:
+        cmd: iptables -A INPUT -p udp --dport {{item}} -j ACCEPT
+      with_items: '{{pritunl_udp.stdout_lines}}'
+      when: pritunl_udp.stdout != ""
+
+    - name: Разрешаем tcp порты для {{ip}}
+      ansible.builtin.shell:
+        cmd: iptables -A INPUT -p tcp --dport {{item}} -s {{ip}} -j ACCEPT
+      with_items: '{{ports_tcp_for_one}}'
+    - name: Разрешаем udp порты для {{ip}}
+      ansible.builtin.shell:
+        cmd: iptables -A INPUT -p udp --dport {{item}} -s {{ip}} -j ACCEPT
+      with_items: '{{ports_udp_for_one}}'
+
+    - name: Разрешаем tcp порты для всех
+      ansible.builtin.shell:
+        cmd: iptables -A INPUT -p tcp --dport {{item}} -j ACCEPT
+      with_items: '{{ports_tcp_for_all}}'
+    - name: Разрешаем udp порты для всех
+      ansible.builtin.shell:
+        cmd: iptables -A INPUT -p udp --dport {{item}} -j ACCEPT
+      with_items: '{{ports_udp_for_all}}'
+
+    - name: Меняем политику INPUT на drop
+      ansible.builtin.shell:
+        cmd: iptables --policy INPUT DROP
+
+    - block: # Сохраняем правила
+      - name: Сохраняем правила Debian
+        ansible.builtin.shell:
+          cmd: iptables-save > /etc/iptables/rules.v4
+        when: ansible_os_family == "Debian"
+      - name: Сохраняем правила RedHat
+        ansible.builtin.shell:
+          cmd: service iptables save
+        when: ansible_os_family == "RedHat"

@@ -1,0 +1,53 @@
+---
+- name: Add user for ansible
+  hosts: new
+  become: true
+  gather_facts: true
+
+  vars:
+    ssh_key_path: '/home/adm2/.ssh/id_rsa.pub'
+    user_name: divitcfg
+
+  tasks:
+  
+  - name: Генерируем рандомный пароль
+    set_fact:
+      rnd_password: "{{ lookup('community.general.random_string', length=9, special=false, min_upper=3, min_numeric=3, min_lower=3) }}"
+  
+  - name: Получаем хеш сгенерированного пароля
+    shell:
+      cmd: openssl passwd -6 {{ rnd_password }}
+    register: hash_rnd_password
+  
+  # ============ Debian ============
+  - name: Добавить пользователя '{{ user_name }}' с добавлением его в группу 'sudo'.
+    user:
+      name: '{{ user_name }}'
+      password: '{{ hash_rnd_password.stdout }}'
+      shell: /bin/bash
+      groups: sudo
+      append: yes
+    when: ansible_os_family == "Debian"
+
+  # ============ RedHat ============
+  - name: Добавить пользователя '{{ user_name }}' с добавлением его в группу 'wheel'.
+    user:
+      name: '{{ user_name }}'
+      password: '{{ hash_rnd_password }}'
+      shell: /bin/bash
+      groups: wheel
+      append: yes
+    when: ansible_os_family == "RedHat"
+
+  - name: Сделать пользователя '{{ user_name }}' NOPASSWD
+    community.general.sudoers:
+        name: '{{ user_name }}-nopasswd'
+        user: '{{ user_name }}'
+        commands: ALL
+        validation: detect
+
+  - name: Установить authorized key из файла id_rsa.pub
+    authorized_key:
+      user: '{{ user_name }}'
+      state: present
+      key: "{{ lookup('file', '{{ ssh_key_path }}') }}"

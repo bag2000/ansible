@@ -1,0 +1,32 @@
+---
+# tasks file for user
+- block: # ============ Debian ============
+  - name: Добавить пользователя '{{ user_name }}' с добавлением его в группу 'sudo'.
+    user:
+      name: '{{ user_name }}'
+      shell: /bin/bash
+      groups: sudo
+      append: yes
+    when: ansible_os_family == "Debian"
+
+- block: # ============ RedHat ============
+  - name: Добавить пользователя '{{ user_name }}' с добавлением его в группу 'wheel'.
+    user:
+      name: '{{ user_name }}'
+      shell: /bin/bash
+      groups: wheel
+      append: yes
+    when: ansible_os_family == "RedHat"
+
+- name: Сделать пользователя '{{ user_name }}' NOPASSWD
+  community.general.sudoers:
+    name: '{{ user_name }}-nopasswd'
+    user: '{{ user_name }}'
+    commands: ALL
+    validation: detect
+
+- name: Установить authorized key из файла id_rsa.pub
+  authorized_key:
+    user: '{{ user_name }}'
+    state: present
+    key: "{{ lookup('file', '{{ ssh_key_path }}') }}"

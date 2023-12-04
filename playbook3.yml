@@ -1,0 +1,36 @@
+---
+- name: Install Nginx and Upload my Web Page
+  hosts: all
+  become: yes
+
+
+  vars:
+    src_file: ./index.nginx-debian.html
+    dst_file: /var/www/html
+
+
+  tasks:
+  - name: Install Nginx Web Server
+    apt:
+      name: nginx
+      state: latest
+
+  - name: Copy My Web page to servers
+    copy:
+      src: "{{ src_file }}"
+      dest: "{{ dst_file }}"
+      mode: 0555
+    notify: Restart ngingx
+
+  - name: Start WbServer and make it enable on boot
+    service:
+      name: nginx
+      state: started
+      enabled: yes
+
+
+  handlers:
+    - name: Restart ngingx
+      service:
+        name: nginx
+        state: restarted

@@ -1,0 +1,9 @@
+---
+- name: Test Connection to my servers
+  hosts: new
+  become: yes
+  gather_facts: true
+
+  roles:
+    - { role: user, ssh_key_path: '/home/adm2/.ssh/id_rsa.pub',  user_name: adm2 }
+
