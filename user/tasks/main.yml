@@ -1,5 +1,9 @@
 ---
 # tasks file for user
+- name: Устанавливаем пакеты на все серверы
+  ansible.builtin.package:
+    name: 'sudo'
+    state: latest
 - block: # ============ Debian ============
   - name: Добавить пользователя '{{ user_name }}' с добавлением его в группу 'sudo'.
     user:
