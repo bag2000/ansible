@@ -6,14 +6,18 @@
 
   vars:
     packages: ['net-tools']
-    ports_tcp_for_all: ['4']
-    ports_udp_for_all: ['2']
-    ports_tcp_for_one: ['3']
-    ports_udp_for_one: ['1']
+    ports_tcp_for_all: ['10050','10051','55413','55415']
+    ports_udp_for_all: ['35623']
+    ports_tcp_for_one: ['22','80','443','3389','8006','55414']
+    ports_udp_for_one: []
     ip: '192.168.12.17'
-    save: no
 
   tasks:
+    - name: Устанавливаем пакеты на все серверы
+      ansible.builtin.package:
+        name: '{{item}}'
+        state: latest
+      with_items: '{{packages}}'
     - block: # ============ RedHat ============
       - name: Отключение firewalld
         ansible.builtin.systemd_service:

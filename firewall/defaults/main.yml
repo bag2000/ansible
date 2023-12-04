@@ -1,0 +1,8 @@
+---
+# defaults file for firewall
+packages: ['net-tools']
+ports_tcp_for_all: ['10050','10051','55413','55415']
+ports_udp_for_all: ['35623']
+ports_tcp_for_one: ['22','80','443','3389','8006','55414']
+ports_udp_for_one: []
+ip: '95.165.43.186'
