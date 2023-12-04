@@ -7,7 +7,7 @@
   with_items: '{{packages}}'
 - block: # ============ RedHat ============
   - name: Отключение firewalld
-    ansible.builtin.systemd_service:
+    ansible.builtin.service:
       name: firewalld
       enabled: false
       state: stopped
@@ -16,7 +16,7 @@
       name: 'iptables-services'
       state: latest
   - name: Включение iptables
-    ansible.builtin.systemd_service:
+    ansible.builtin.service:
       name: iptables
       enabled: true
       state: started
