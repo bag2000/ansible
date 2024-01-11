@@ -1,0 +1,75 @@
+---
+- name: Update and upgrade all packages
+  become: true
+  apt:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 86400
+  when: upgrade == true
+
+- name: install mongodb
+  block:
+    - name: add mongodb key
+      ansible.builtin.apt_key:
+        url: https://www.mongodb.org/static/pgp/server-4.4.asc
+        state: present
+    - name: add mongodb repo
+      ansible.builtin.apt_repository:
+        repo: "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse"
+        state: present
+    - name: install mongodb 4.4
+      ansible.builtin.apt:
+        name: mongodb
+        state: present
+    - name: copy db files to server
+      ansible.builtin.unarchive:
+        src: pritunl.gz
+        dest: /
+        owner: root
+        group: root
+        mode: "0644"      
+    - name: import db pritunl to mongodb
+      ansible.builtin.command: mongorestore --db pritunl /pritunl
+    - name: remove old files from server
+      ansible.builtin.file:
+        path: /pritunl
+        state: absent
+    - name: enable and start mongodb
+      ansible.builtin.systemd_service:
+        name: mongodb
+        state: restarted
+        enabled: true
+
+- name: install pritunl
+  block:
+    - name: add pritunl key
+      ansible.builtin.apt_key:
+        url: https://raw.githubusercontent.com/pritunl/pgp/master/pritunl_repo_pub.asc
+        state: present
+    - name: add pritunl repo
+      ansible.builtin.apt_repository:
+        repo: "deb http://repo.pritunl.com/stable/apt focal main"
+        state: present
+    - name: install pritunl
+      ansible.builtin.apt:
+        name: pritunl
+        state: present
+    - name: enable and start pritunl
+      ansible.builtin.systemd_service:
+        name: pritunl
+        state: started
+        enabled: true
+  
+- name: copy pritunl configuration file
+  ansible.builtin.template:
+    src: pritunl.conf.j2
+    dest: /etc/pritunl.conf
+    owner: root
+    group: root
+    mode: "0664"
+  notify: start pritunl
+
+#- name: Get deffault login and password
+#  ansible.builtin.shell: pritunl default-password | grep 'password' > /pwd.txt
+#  register: result
+#  tags: debug

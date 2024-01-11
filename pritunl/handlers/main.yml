@@ -1,0 +1,6 @@
+---
+- name: start pritunl
+  service:
+    name: pritunl
+    state: restarted
+    enabled: yes

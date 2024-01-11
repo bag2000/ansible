@@ -6,5 +6,6 @@
 
   roles:
     #- { role: user, ssh_key_path: '/home/adm2/.ssh/id_rsa.pub',  user_name: adm2 }
-    - { role: firewall, ip: '192.168.12.17', packages: ['net-tools','nano'] }
-
+    #- { role: firewall, ip: '192.168.12.17', packages: ['net-tools','nano'] }
+    - { role: pritunl, upgrade: true }
+    

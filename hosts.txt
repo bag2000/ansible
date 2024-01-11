@@ -1,8 +1,3 @@
 
 [new]
-srv3 ansible_host=192.168.12.15
-#srv4 ansible_host=192.168.12.6
-
-[test_servers]
-srv2 ansible_host=192.168.12.21
-srv3 ansible_host=192.168.12.15
+srv4 ansible_host=192.168.12.6
