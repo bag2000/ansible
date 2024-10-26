@@ -1,0 +1,10 @@
+- name: Test Connection to Servers
+  hosts: all
+  become: true
+  tasks:
+    - name: Ping my Servers
+      ansible.builtin.setup:
+      register: system_var
+
+    - debug:
+        var: system_var
