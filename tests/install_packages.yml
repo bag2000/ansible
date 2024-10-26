@@ -1,0 +1,12 @@
+- name: Install packages
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Onstall specified packages
+      package:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ packages }}"
+
+#ansible-playbook install_packages.yml --extra-vars "packages=['nginx', 'vim']"
