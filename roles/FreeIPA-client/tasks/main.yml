@@ -1,3 +1,19 @@
 - name: Меняем имя ОС
   ansible.builtin.hostname:
     name: "{{ hostname }}.ipa.t8.corp"
+
+- name: Устанавливаю dnsmasq
+  ansible.builtin.package:
+    name: dnsmasq
+    state: present
+
+# - name: Настраиваем DNS
+#   when: ansible_facts['os_family'] == 'Astra Linux'
+#   block:
+#     - name: Запретить использовать IP-адреса серверов DNS, предоставляемые DHCP-сервером
+#       ansible.builtin.command:
+#         cmd: nmcli con mod "Проводное соединение 1" ipv4.ignore-auto-dns yes
+#     - name: Устанавливаем DNS IP адреса ipa серверов 
+#       ansible.builtin.command:
+#         cmd: nmcli con mod "Проводное соединение 1" ipv4.dns "127.0.0.1"
+    
