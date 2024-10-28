@@ -2,11 +2,15 @@
   ansible.builtin.hostname:
     name: "{{ hostname }}.ipa.t8.corp"
 
+- name: Обновляю репозитории
+  ansible.builtin.apt:
+    update_cache: yes
+  when: ansible_facts['os_family'] == 'Astra Linux'
+
 - name: Устанавливаю dnsmasq
   ansible.builtin.apt:
     name: dnsmasq
     state: present
-    update_cache: yes
   when: ansible_facts['os_family'] == 'Astra Linux'
 
 # - name: Настраиваем DNS
