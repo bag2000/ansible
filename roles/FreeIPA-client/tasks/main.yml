@@ -32,14 +32,14 @@
     name: systemd-timesyncd
     state: stopped
     enabled: false
-    ignore_errors: true
+  ignore_errors: true
 
 - name: Отключаю конфликтные службы
   ansible.builtin.service:
     name: chrony
     state: stopped
     enabled: false
-    ignore_errors: true
+  ignore_errors: true
 
 - name: Устанавливаю dnsmasq, fly-admin-freeipa-client
   ansible.builtin.apt:
