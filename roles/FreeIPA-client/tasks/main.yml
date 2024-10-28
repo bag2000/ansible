@@ -3,9 +3,10 @@
     name: "{{ hostname }}.ipa.t8.corp"
 
 - name: Устанавливаю dnsmasq
-  ansible.builtin.package:
+  ansible.builtin.apt:
     name: dnsmasq
     state: present
+  when: ansible_facts['os_family'] == 'Astra Linux'
 
 # - name: Настраиваем DNS
 #   when: ansible_facts['os_family'] == 'Astra Linux'
