@@ -1,6 +1,14 @@
-- name: Меняем имя ОС
+- name: Меняю имя ОС
   ansible.builtin.hostname:
     name: "{{ hostname }}.ipa.t8.corp"
+
+- name: Добавляю репозитории
+  ansible.builtin.apt_repository:
+    repo:
+      - "deb https://dl.astralinux.ru/astra/stable/1.8_x86-64/main-repository/ 1.8_x86-64 main contrib non-free"
+      - "deb https://dl.astralinux.ru/astra/stable/1.8_x86-64/extended-repository/ 1.8_x86-64 main contrib non-free"
+    state: present
+    filename: stable
 
 - name: Обновляю репозитории
   ansible.builtin.apt:
