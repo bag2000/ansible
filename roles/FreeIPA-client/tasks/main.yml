@@ -1,4 +1,4 @@
 - name: Меняем имя ОС
   become: true
   ansible.builtin.command:
-    cmd: "hostnamectl set-hostname {{ hostname }}"
+    cmd: hostnamectl set-hostname "{{ hostname }}"
