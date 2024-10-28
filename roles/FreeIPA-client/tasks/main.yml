@@ -8,28 +8,55 @@
     regexp: '^(deb cdrom)'
     replace: '# \1'
 
-- name: Добавляю репозитории main
+- name: Добавляю репозиторий main
   ansible.builtin.apt_repository:
     repo: "deb https://dl.astralinux.ru/astra/stable/1.8_x86-64/main-repository/ 1.8_x86-64 main contrib non-free"
     state: present
+    update_cache: false
     filename: stable-main
 
-- name: Добавляю репозитории extended
+- name: Добавляю репозиторий extended
   ansible.builtin.apt_repository:
     repo: "deb https://dl.astralinux.ru/astra/stable/1.8_x86-64/extended-repository/ 1.8_x86-64 main contrib non-free"
     state: present
+    update_cache: false
     filename: stable-extended
 
 - name: Обновляю репозитории
   ansible.builtin.apt:
-    update_cache: yes
+    update_cache: true
   when: ansible_facts['os_family'] == 'Astra Linux'
 
 - name: Устанавливаю dnsmasq
   ansible.builtin.apt:
     name: dnsmasq
     state: present
-  when: ansible_facts['os_family'] == 'Astra Linux'
+
+- name: Создаю конфиг dnsmasq
+  ansible.builtin.template:
+    src: templates/dnscache.conf
+    dest: /etc/dnsmasq.d/dnscache.conf
+    owner: root
+    group: root
+    mode: '0751'
+  register: dnsmasq_conf
+
+- name: Создаю резолв конфиг dnsmasq
+  ansible.builtin.template:
+    src: templates/resolv.dnsmasq
+    dest: /etc/resolv.dnsmasq
+    owner: root
+    group: root
+    mode: '0644'
+  register: dnsmasq_conf
+
+- name: Перезапускаю службу dnsmasq
+  service:
+    name: dnsmasq
+    state: restarted
+  when: dnsmasq_conf.changed
+
+
 
 # - name: Настраиваем DNS
 #   when: ansible_facts['os_family'] == 'Astra Linux'
