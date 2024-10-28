@@ -6,6 +6,7 @@
   ansible.builtin.apt:
     name: dnsmasq
     state: present
+    update_cache: yes
   when: ansible_facts['os_family'] == 'Astra Linux'
 
 # - name: Настраиваем DNS
