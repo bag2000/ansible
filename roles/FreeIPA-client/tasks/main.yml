@@ -1,4 +1,5 @@
 - name: Меняем имя ОС
   become: true
   ansible.builtin.hostname:
-    name: "{{ hostname }}.ipa.t8.corp"
+    name: "{{ hostname }}"
+    use: systemd
