@@ -1,10 +1,7 @@
 - name: Get system facts
-  hosts: "{{  hosts  }}"
+  hosts: "{{ hosts }}"
   become: true
   tasks:
-    - name: Get system facts
-      ansible.builtin.setup:
-      register: system_var
-
-    - debug:
-        var: system_var
+    - name: Print all available facts
+      ansible.builtin.debug:
+        var: ansible_facts

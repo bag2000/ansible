@@ -1,0 +1,8 @@
+- name: Install nano on RedHat Family
+  yum:
+    name: bind
+    state: present
+  when:
+    ansible_os_family == "RedHat"
+  notify:
+    - bind systemd
