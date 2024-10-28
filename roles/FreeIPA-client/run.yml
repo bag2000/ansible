@@ -1,4 +1,4 @@
-- hosts: {{ hosts }}
+- hosts: "{{ hosts }}"
   become: true
   roles:
     - FreeIPA-client
