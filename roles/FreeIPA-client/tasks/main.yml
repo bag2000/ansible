@@ -2,17 +2,24 @@
   ansible.builtin.hostname:
     name: "{{ hostname }}.ipa.t8.corp"
 
+- name: Replace after the expression till the end of the file (requires Ansible >= 2.4)
+  ansible.builtin.replace:
+    path: /etc/apt/source.lost
+    before: 'CD'
+    regexp: '^CD'
+    replace: '#'
+
 - name: Добавляю репозитории main
   ansible.builtin.apt_repository:
     repo: "deb https://dl.astralinux.ru/astra/stable/1.8_x86-64/main-repository/ 1.8_x86-64 main contrib non-free"
     state: present
-    filename: stable
+    filename: stable-main
 
 - name: Добавляю репозитории extended
   ansible.builtin.apt_repository:
     repo: "ddeb https://dl.astralinux.ru/astra/stable/1.8_x86-64/extended-repository/ 1.8_x86-64 main contrib non-free"
     state: present
-    filename: stable
+    filename: stable-extended
 
 - name: Обновляю репозитории
   ansible.builtin.apt:
