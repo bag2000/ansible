@@ -2,11 +2,16 @@
   ansible.builtin.hostname:
     name: "{{ hostname }}.ipa.t8.corp"
 
-- name: Добавляю репозитории
+- name: Добавляю репозитории main
   ansible.builtin.apt_repository:
     repo:
       - "deb https://dl.astralinux.ru/astra/stable/1.8_x86-64/main-repository/ 1.8_x86-64 main contrib non-free"
-      - "deb https://dl.astralinux.ru/astra/stable/1.8_x86-64/extended-repository/ 1.8_x86-64 main contrib non-free"
+    state: present
+    filename: stable
+
+- name: Добавляю репозитории extended
+  ansible.builtin.apt_repository:
+    repo: "ddeb https://dl.astralinux.ru/astra/stable/1.8_x86-64/extended-repository/ 1.8_x86-64 main contrib non-free"
     state: present
     filename: stable
 
