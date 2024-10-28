@@ -4,7 +4,7 @@
 
 - name: Replace after the expression till the end of the file (requires Ansible >= 2.4)
   ansible.builtin.replace:
-    path: /etc/apt/source.lost
+    path: /etc/apt/source.list
     before: 'CD'
     regexp: '^CD'
     replace: '#'
