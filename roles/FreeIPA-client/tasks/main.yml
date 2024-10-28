@@ -27,6 +27,14 @@
     update_cache: true
   when: ansible_facts['os_family'] == 'Astra Linux'
 
+- name: Отключаю конфликтные службы
+  ansible.builtin.service:
+    name:
+      - chrony
+      - systemd-timesyncd
+    state: stopped
+    enabled: false
+
 - name: Устанавливаю dnsmasq, fly-admin-freeipa-client
   ansible.builtin.apt:
     name:
