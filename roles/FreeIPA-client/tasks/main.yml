@@ -5,8 +5,8 @@
 - name: Replace after the expression till the end of the file (requires Ansible >= 2.4)
   ansible.builtin.replace:
     path: /etc/apt/sources.list
-    before: 'CD'
-    regexp: '^CD'
+    before: 'deb cdrom'
+    regexp: '^deb cdrom'
     replace: '#'
 
 - name: Добавляю репозитории main
