@@ -29,9 +29,13 @@
 
 - name: Отключаю конфликтные службы
   ansible.builtin.service:
-    name:
-      - chrony
-      - systemd-timesyncd
+    name: systemd-timesyncd
+    state: stopped
+    enabled: false
+
+- name: Отключаю конфликтные службы
+  ansible.builtin.service:
+    name: chrony
     state: stopped
     enabled: false
 
