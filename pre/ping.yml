@@ -1,5 +1,5 @@
 - name: Test Connection to Servers
-  hosts: {{  hosts  }}
+  hosts: "{{  hosts  }}"
   become: true
   tasks:
     - name: Ping my Servers
