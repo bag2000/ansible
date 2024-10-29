@@ -123,6 +123,7 @@
 - name: Include task list in play
   ansible.builtin.import_tasks:
     file: Astra.yml
+  when: ansible_facts['os_family'] == "Astra Linux"
 
 - name: restart sssd
   when: sssd_check.changed == true or krb5_check.changed == true
