@@ -85,7 +85,7 @@
 - name: DNS
   ansible.builtin.debug:
     msg: "{{ dns_check }}"
-  when: '"127.0.0.1" in dns_check.stdout'
+  when: '"127.0.0.1" not in dns_check.stdout'
 
 - name: Запрещаю использовать IP-адреса серверов DNS, предоставляемые DHCP-сервером
   ansible.builtin.command:
