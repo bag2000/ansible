@@ -8,19 +8,13 @@
     regexp: '^(deb cdrom)'
     replace: '# \1'
 
-- name: Добавляю репозиторий main
-  ansible.builtin.apt_repository:
-    repo: "{{ repo_main }}"
-    state: present
-    update_cache: false
-    filename: stable-main
-
-- name: Добавляю репозиторий extended
-  ansible.builtin.apt_repository:
-    repo: "{{ repo_extended }}"
-    state: present
-    update_cache: false
-    filename: stable-extended
+- name: Добавляем репозитории main и extended
+  ansible.builtin.template:
+    src: templates/repo-astra.list
+    dest: /etc/apt/sources.list.d/repo-astra.list
+    owner: root
+    group: root
+    mode: 0644
 
 - name: Обновляю репозитории
   ansible.builtin.apt:
