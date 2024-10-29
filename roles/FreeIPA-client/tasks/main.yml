@@ -77,7 +77,7 @@
 
 - name: Перезагружаю ПК
   ansible.builtin.reboot:
-  reboot_timeout: 3600
+    reboot_timeout: 3600
   when: '"127.0.0.1" not in dns_check.stdout'
 
 - name: Добавляем контроллеры ipa и dc в hosts
@@ -136,4 +136,4 @@
 
     - name: Перезапускаю ПК
       ansible.builtin.reboot:
-      reboot_timeout: 3600
+        reboot_timeout: 3600
