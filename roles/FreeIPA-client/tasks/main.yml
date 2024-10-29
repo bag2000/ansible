@@ -114,7 +114,7 @@
       register: krb5_check
 
 - name: restart sssd
-  when: sssd_check.changed == "true" or krb5_check.changed == "true"
+  when: sssd_check.changed == true or krb5_check.changed == true
   block:
     - name: Останавливаем службу sssd
       ansible.builtin.service:
