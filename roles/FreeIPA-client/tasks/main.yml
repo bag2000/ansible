@@ -40,7 +40,7 @@
     msg: "{{ freeipa_client_check }}"
 
 - name: Удаляю конфликтующие службы
-  when: freeipa_client_check
+  when: freeipa_client_check.changed == "true"
   block:
     - name: Удаляю службу systemd-timesyncd
       ansible.builtin.apt:
@@ -90,6 +90,9 @@
   ansible.builtin.command:
     cmd: nmcli con mod "Проводное соединение 1" ipv4.dns "127.0.0.1"
     
-- name: Перезапускаю сетевую службу
-  ansible.builtin.command:
-    cmd: nmcli con down "Проводное соединение 1"; nmcli con up "Проводное соединение 1"
+# - name: Перезапускаю сетевую службу
+#   ansible.builtin.command:
+#     cmd: nmcli con down "Проводное соединение 1"; nmcli con up "Проводное соединение 1"
+
+- name: Перезагружаю ПК
+  ansible.builtin.reboot:
