@@ -39,15 +39,17 @@
   ansible.builtin.debug:
     msg: "{{ freeipa_client_check }}"
 
-- name: Удаляю конфликтнующую службу systemd-timesyncd
-  ansible.builtin.apt:
-    name: systemd-timesyncd
-    state: absent
-
-- name: Удаляю конфликтнующую службу chrony
-  ansible.builtin.apt:
-    name: chrony
-    state: absent
+- name: Удаляю конфликтующие службы
+  when: freeipa_client_check
+  block:
+    - name: Удаляю службу systemd-timesyncd
+      ansible.builtin.apt:
+        name: systemd-timesyncd
+        state: absent
+    - name: Удаляю службу chrony
+      ansible.builtin.apt:
+        name: chrony
+        state: absent
 
 - name: Устанавливаю dnsmasq, fly-admin-freeipa-client
   ansible.builtin.apt:
