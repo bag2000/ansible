@@ -51,7 +51,7 @@
   ansible.builtin.apt:
     name:
       - dnsmasq
-      - fly-admin-freeipa-client
+      - astra-freeipa-client
     state: present
 
 - name: Создаю конфиг dnsmasq
