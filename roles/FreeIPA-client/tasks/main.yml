@@ -94,3 +94,8 @@
 - name: Перезагружаю ПК
   ansible.builtin.reboot:
   when: '"127.0.0.1" not in dns_check.stdout'
+
+- name: Добавляем ipa1 в hosts
+  lineinfile:
+    path: "/etc/hosts"
+    line: "192.168.8.185 ipa1.ipa.t8.corp"
