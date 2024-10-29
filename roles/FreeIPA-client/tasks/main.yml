@@ -47,11 +47,13 @@
         name: chrony
         state: absent
 
-- name: Устанавливаю dnsmasq, fly-admin-freeipa-client
+- name: Устанавливаю dnsmasq, fly-admin-freeipa-client, ntpsec, ntp
   ansible.builtin.apt:
     name:
       - dnsmasq
       - astra-freeipa-client
+      - ntpsec
+      - ntp
     state: present
 
 - name: Создаю конфиг dnsmasq
