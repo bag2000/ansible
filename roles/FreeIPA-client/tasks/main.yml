@@ -30,7 +30,7 @@
     msg: "{{ check_freipa_clint_package.stdout }}"
 
 - name: Удаляю конфликтующие службы
-  wen: check_freipa_clint_package.stdout == '1'
+  when: check_freipa_clint_package.stdout == '1'
   block:    
     - name: Удаляю службу systemd-timesyncd
       ansible.builtin.apt:
