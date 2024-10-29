@@ -82,24 +82,15 @@
   ansible.builtin.shell: 'nmcli con show "Проводное соединение 1" | grep "IP4.DNS\[1\]"'
   register: dns_check
 
-- name: Проверяю DNS на запрет использования DHCP
-  ansible.builtin.shell: 'nmcli con show "Проводное соединение 1" | grep "ipv4.ignore-auto-dns"'
-  register: dns_ignore_check
-
-# - name: DNS
-#   ansible.builtin.debug:
-#     msg: "{{ dns_check }}"
-#   when: '"127.0.0.1" not in dns_check.stdout'
-
 - name: Запрещаю использовать IP-адреса серверов DNS, предоставляемые DHCP-сервером
   ansible.builtin.command:
     cmd: nmcli con mod "Проводное соединение 1" ipv4.ignore-auto-dns yes
-  when: '"да" not in dns_check.stdout or "yes" not in dns_check.stdout'
 
 - name: Устанавливаю DNS IP адрес ipa серверов "127.0.0.1"
   ansible.builtin.command:
     cmd: nmcli con mod "Проводное соединение 1" ipv4.dns "127.0.0.1"
   when: '"127.0.0.1" not in dns_check.stdout'
     
-# - name: Перезагружаю ПК
-#   ansible.builtin.reboot:
+- name: Перезагружаю ПК
+  ansible.builtin.reboot:
+  when: '"127.0.0.1" not in dns_check.stdout'
