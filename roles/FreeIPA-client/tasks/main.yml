@@ -29,15 +29,17 @@
   debug:
     msg: "{{ check_freipa_clint_package.stdout }}"
 
-# - name: Удаляю службу systemd-timesyncd
-#   ansible.builtin.apt:
-#     name: systemd-timesyncd
-#     state: absent
-
-# - name: Удаляю службу chrony
-#   ansible.builtin.apt:
-#     name: chrony
-#     state: absent
+- name: Удаляю конфликтующие службы
+  wen: check_freipa_clint_package.stdout == '1'
+  block:    
+    - name: Удаляю службу systemd-timesyncd
+      ansible.builtin.apt:
+        name: systemd-timesyncd
+        state: absent
+    - name: Удаляю службу chrony
+      ansible.builtin.apt:
+        name: chrony
+        state: absent
 
 # - name: Устанавливаю dnsmasq, astra-freeipa-client
 #   ansible.builtin.apt:
