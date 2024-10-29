@@ -98,3 +98,7 @@
       - "{{ ipa2_ip }} {{ ipa2_name }}"
       - "{{ dc01_ip }} {{ dc01_name }}"
       - "{{ dc02_ip }} {{ dc02_name }}"
+
+- name: Ввожу ПК в домен
+  ansible.builtin.command:
+    cmd: astra-freeipa-client -d {{ ipa_domain }} -p {{ ipa_admin_pass }} -y
