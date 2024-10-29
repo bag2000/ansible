@@ -74,10 +74,18 @@
   ansible.builtin.command:
     cmd: nmcli con mod "{{ conn }}" ipv4.dns "127.0.0.1"
   when: '"127.0.0.1" not in dns_check.stdout'
-    
+
 - name: Перезагружаю ПК
   ansible.builtin.reboot:
   when: '"127.0.0.1" not in dns_check.stdout'
+
+- name: Ждем загрузки ПК
+  local_action:
+    module: wait_for
+     host={{ inventory_hostname }}
+     port=22
+     delay=1
+     timeout=300
 
 - name: Добавляем контроллеры ipa и dc в hosts
   lineinfile:
@@ -135,3 +143,11 @@
 
     - name: Перезапускаю ПК
       ansible.builtin.reboot:
+
+- name: Ждем загрузки ПК
+  local_action:
+    module: wait_for
+     host={{ inventory_hostname }}
+     port=22
+     delay=1
+     timeout=300
