@@ -93,6 +93,6 @@
   debug:
     msg: "{{ ipa_admin_pass }}"
 
-- name: Ввожу ПК в домен
-  ansible.builtin.command:
-    cmd: astra-freeipa-client -p {{ ipa_admin_pass }} -y
+# - name: Ввожу ПК в домен
+#   ansible.builtin.command:
+#     cmd: astra-freeipa-client -p {{ ipa_admin_pass }} -y
