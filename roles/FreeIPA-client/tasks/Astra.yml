@@ -94,8 +94,8 @@
 - name: Проверяю, находится ли ПК в домене
   ansible.builtin.shell: 'astra-freeipa-client -i | grep ipa.t8.corp | wc -l'
   register: domain_check
-  check_mode: false
-  
+  changed_when: false
+
 - name: Ввожу ПК в домен
   ansible.builtin.command:
     cmd: astra-freeipa-client -p {{ ipa_admin_pass }} -y
