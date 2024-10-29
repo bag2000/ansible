@@ -101,4 +101,4 @@
 
 - name: Ввожу ПК в домен
   ansible.builtin.command:
-    cmd: astra-freeipa-client -d {{ ipa_domain }} -p {{ ipa_admin_pass }} -y
+    cmd: astra-freeipa-client -p {{ ipa_admin_pass }} -y
