@@ -1,6 +1,6 @@
 - name: Меняю имя ОС
   ansible.builtin.hostname:
-    name: "{{ inventory_hostname }}.ipa.t8.corp"
+    name: "{{ inventory_hostname }}"
 
 - name: Комментирую репозиторий cdrom
   ansible.builtin.replace:
@@ -27,27 +27,16 @@
     update_cache: true
   when: ansible_facts['os_family'] == 'Astra Linux'
 
-- name: Проверяю, установлен ли пакет fly-admin-freeipa-client
+- name: Удаляю службу systemd-timesyncd
   ansible.builtin.apt:
-    name:
-      - fly-admin-freeipa-client
-    state: present
-  check_mode: true
-  register: freeipa_client_check
+    name: systemd-timesyncd
+    state: absent
+- name: Удаляю службу chrony
+  ansible.builtin.apt:
+    name: chrony
+    state: absent
 
-- name: Удаляю конфликтующие службы
-  when: freeipa_client_check.changed == "true"
-  block:
-    - name: Удаляю службу systemd-timesyncd
-      ansible.builtin.apt:
-        name: systemd-timesyncd
-        state: absent
-    - name: Удаляю службу chrony
-      ansible.builtin.apt:
-        name: chrony
-        state: absent
-
-- name: Устанавливаю dnsmasq, fly-admin-freeipa-client, ntpsec, ntp
+- name: Устанавливаю dnsmasq, astra-freeipa-client, ntpsec, ntp
   ansible.builtin.apt:
     name:
       - dnsmasq
@@ -103,4 +92,4 @@
 
 - name: Ввожу ПК в домен
   ansible.builtin.command:
-    cmd: astra-freeipa-client -p {{ ipa_admin_pass }} -y
+    cmd: astra-freeipa-client -p {{ ipa_admin_pass }} -n {{ dc01_ip }},{{ dc02_ip }} -y
