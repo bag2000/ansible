@@ -95,12 +95,12 @@
 #   ansible.builtin.reboot:
 #   when: '"127.0.0.1" not in dns_check.stdout'
 
-- name: Добавляем ipa1 в hosts
+- name: Добавляем контроллеры ipa и dc в hosts
   lineinfile:
     path: "/etc/hosts"
     line: "{{ item }}"
   loop:
-      - "{{ ipa1_ip }} ipa1.ipa.t8.corp ipa1"
-      - "192.168.8.186 ipa2.ipa.t8.corp ipa2"
-      - "192.168.8.32 ad.t8.corp"
-      - "192.168.8.20 adhard.t8.corp"
+      - "{{ ipa1_ip }} {{ ipa1_name }}"
+      - "{{ ipa2_ip }} {{ ipa2_name }}"
+      - "{{ dc01_ip }} {{ dc01_name }}"
+      - "{{ dc02_ip }} {{ dc02_name }}"
