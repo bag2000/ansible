@@ -27,17 +27,15 @@
     update_cache: true
   when: ansible_facts['os_family'] == 'Astra Linux'
 
-- name: Отключаю конфликтные службы
+- name: Удаляю конфликтнующую службу systemd-timesyncd
   ansible.builtin.apt:
     name: systemd-timesyncd
     state: absent
-  ignore_errors: true
 
-- name: Отключаю конфликтные службы
+- name: Удаляю конфликтнующую службу chrony
   ansible.builtin.apt:
     name: chrony
     state: absent
-  ignore_errors: true
 
 - name: Устанавливаю dnsmasq, fly-admin-freeipa-client
   ansible.builtin.apt:
@@ -70,15 +68,14 @@
     state: restarted
   when: dnsmasq_conf.changed
 
+- name: Запрещаю использовать IP-адреса серверов DNS, предоставляемые DHCP-сервером
+  ansible.builtin.command:
+    cmd: nmcli con mod "Проводное соединение 1" ipv4.ignore-auto-dns yes
 
-
-# - name: Настраиваем DNS
-#   when: ansible_facts['os_family'] == 'Astra Linux'
-#   block:
-#     - name: Запретить использовать IP-адреса серверов DNS, предоставляемые DHCP-сервером
-#       ansible.builtin.command:
-#         cmd: nmcli con mod "Проводное соединение 1" ipv4.ignore-auto-dns yes
-#     - name: Устанавливаем DNS IP адреса ipa серверов 
-#       ansible.builtin.command:
-#         cmd: nmcli con mod "Проводное соединение 1" ipv4.dns "127.0.0.1"
+- name: Устанавливаю DNS IP адрес ipa серверов "127.0.0.1"
+  ansible.builtin.command:
+    cmd: nmcli con mod "Проводное соединение 1" ipv4.dns "127.0.0.1"
     
+- name: Перезапускаю сетевую службу
+  ansible.builtin.command:
+    cmd: nmcli con down "Проводное соединение 1"; nmcli con up "Проводное соединение 1"
