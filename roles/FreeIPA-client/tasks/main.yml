@@ -25,12 +25,8 @@
   ansible.builtin.shell: 'dpkg -s "astra-freeipa-client" | grep "Status: install ok installed" | wc -l'
   register: check_freipa_clint_package
 
-- name: show msg
-  debug:
-    msg: "{{ check_freipa_clint_package.stdout }}"
-
 - name: Удаляю конфликтующие службы
-  when: check_freipa_clint_package.stdout == '1'
+  when: check_freipa_clint_package.stdout != '1'
   block:    
     - name: Удаляю службу systemd-timesyncd
       ansible.builtin.apt:
@@ -41,58 +37,58 @@
         name: chrony
         state: absent
 
-# - name: Устанавливаю dnsmasq, astra-freeipa-client
-#   ansible.builtin.apt:
-#     name:
-#       - dnsmasq
-#       - astra-freeipa-client
-#     state: present
+- name: Устанавливаю dnsmasq, astra-freeipa-client
+  ansible.builtin.apt:
+    name:
+      - dnsmasq
+      - astra-freeipa-client
+    state: present
 
-# - name: Создаю конфиг dnsmasq
-#   ansible.builtin.template:
-#     src: templates/dnscache.conf
-#     dest: /etc/dnsmasq.d/dnscache.conf
-#     owner: root
-#     group: root
-#     mode: '0751'
-#   notify: restart dnsmasq
+- name: Создаю конфиг dnsmasq
+  ansible.builtin.template:
+    src: templates/dnscache.conf
+    dest: /etc/dnsmasq.d/dnscache.conf
+    owner: root
+    group: root
+    mode: '0751'
+  notify: restart dnsmasq
 
-# - name: Создаю резолв конфиг dnsmasq
-#   ansible.builtin.template:
-#     src: templates/resolv.dnsmasq
-#     dest: /etc/resolv.dnsmasq
-#     owner: root
-#     group: root
-#     mode: '0644'
-#   notify: restart dnsmasq
+- name: Создаю резолв конфиг dnsmasq
+  ansible.builtin.template:
+    src: templates/resolv.dnsmasq
+    dest: /etc/resolv.dnsmasq
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart dnsmasq
 
-# - name: Проверяю DNS
-#   ansible.builtin.shell: 'nmcli con show "{{ conn }}" | grep "IP4.DNS\[1\]"'
-#   register: dns_check
+- name: Проверяю DNS
+  ansible.builtin.shell: 'nmcli con show "{{ conn }}" | grep "IP4.DNS\[1\]"'
+  register: dns_check
 
-# - name: Запрещаю использовать IP-адреса серверов DNS, предоставляемые DHCP-сервером
-#   ansible.builtin.command:
-#     cmd: nmcli con mod "{{ conn }}" ipv4.ignore-auto-dns yes
+- name: Запрещаю использовать IP-адреса серверов DNS, предоставляемые DHCP-сервером
+  ansible.builtin.command:
+    cmd: nmcli con mod "{{ conn }}" ipv4.ignore-auto-dns yes
 
-# - name: Устанавливаю DNS IP адрес ipa серверов "127.0.0.1"
-#   ansible.builtin.command:
-#     cmd: nmcli con mod "{{ conn }}" ipv4.dns "127.0.0.1"
-#   when: '"127.0.0.1" not in dns_check.stdout'
+- name: Устанавливаю DNS IP адрес ipa серверов "127.0.0.1"
+  ansible.builtin.command:
+    cmd: nmcli con mod "{{ conn }}" ipv4.dns "127.0.0.1"
+  when: '"127.0.0.1" not in dns_check.stdout'
     
-# - name: Перезагружаю ПК
-#   ansible.builtin.reboot:
-#   when: '"127.0.0.1" not in dns_check.stdout'
+- name: Перезагружаю ПК
+  ansible.builtin.reboot:
+  when: '"127.0.0.1" not in dns_check.stdout'
 
-# - name: Добавляем контроллеры ipa и dc в hosts
-#   lineinfile:
-#     path: "/etc/hosts"
-#     line: "{{ item }}"
-#   loop:
-#       - "{{ ipa1_ip }} {{ ipa1_name }}"
-#       - "{{ ipa2_ip }} {{ ipa2_name }}"
-#       - "{{ dc01_ip }} {{ dc01_name }}"
-#       - "{{ dc02_ip }} {{ dc02_name }}"
+- name: Добавляем контроллеры ipa и dc в hosts
+  lineinfile:
+    path: "/etc/hosts"
+    line: "{{ item }}"
+  loop:
+      - "{{ ipa1_ip }} {{ ipa1_name }}"
+      - "{{ ipa2_ip }} {{ ipa2_name }}"
+      - "{{ dc01_ip }} {{ dc01_name }}"
+      - "{{ dc02_ip }} {{ dc02_name }}"
 
-# - name: Ввожу ПК в домен
-#   ansible.builtin.command:
-#     cmd: astra-freeipa-client -p {{ ipa_admin_pass }} -n {{ dc01_ip }},{{ dc02_ip }} -y
+- name: Ввожу ПК в домен
+  ansible.builtin.command:
+    cmd: astra-freeipa-client -p {{ ipa_admin_pass }} -n {{ dc01_ip }},{{ dc02_ip }} -y
