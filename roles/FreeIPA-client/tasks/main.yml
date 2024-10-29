@@ -27,14 +27,14 @@
     update_cache: true
   when: ansible_facts['os_family'] == 'Astra Linux'
 
-- name: Удаляю службу systemd-timesyncd
-  ansible.builtin.apt:
-    name: systemd-timesyncd
-    state: absent
-- name: Удаляю службу chrony
-  ansible.builtin.apt:
-    name: chrony
-    state: absent
+# - name: Удаляю службу systemd-timesyncd
+#   ansible.builtin.apt:
+#     name: systemd-timesyncd
+#     state: absent
+# - name: Удаляю службу chrony
+#   ansible.builtin.apt:
+#     name: chrony
+#     state: absent
 
 - name: Устанавливаю dnsmasq, astra-freeipa-client, ntpsec, ntp
   ansible.builtin.apt:
