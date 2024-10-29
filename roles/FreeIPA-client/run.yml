@@ -1,8 +1,14 @@
-- hosts: "{{ hosts }}"
+- hosts: "{{ clients }}"
   become: true
   roles:
     - "../FreeIPA-client"
   vars:
+      - hostname: "new"
+      - connection: "Проводное соединение 1"
+
+      - repo_main: "deb https://dl.astralinux.ru/astra/stable/1.8_x86-64/main-repository/ 1.8_x86-64 main contrib non-free"
+      - repo_extended: "deb https://dl.astralinux.ru/astra/stable/1.8_x86-64/extended-repository/ 1.8_x86-64 main contrib non-free"
+
       - ipa1_ip: "192.168.8.185"
       - ipa2_ip: "192.168.8.186"
       - dc01_ip: "192.168.8.32"
