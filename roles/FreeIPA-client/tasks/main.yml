@@ -102,3 +102,5 @@
   loop:
       - "192.168.8.185 ipa1.ipa.t8.corp ipa1"
       - "192.168.8.186 ipa2.ipa.t8.corp ipa2"
+      - "192.168.8.32 ad.t8.corp"
+      - "192.168.8.20 adhard.t8.corp"
