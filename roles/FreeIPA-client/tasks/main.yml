@@ -73,16 +73,16 @@
   notify: restart dnsmasq
 
 - name: Проверяю DNS
-  ansible.builtin.shell: 'nmcli con show "{{ connection }}" | grep "IP4.DNS\[1\]"'
+  ansible.builtin.shell: 'nmcli con show "{{ conn }}" | grep "IP4.DNS\[1\]"'
   register: dns_check
 
 - name: Запрещаю использовать IP-адреса серверов DNS, предоставляемые DHCP-сервером
   ansible.builtin.command:
-    cmd: nmcli con mod "{{ connection }}" ipv4.ignore-auto-dns yes
+    cmd: nmcli con mod "{{ conn }}" ipv4.ignore-auto-dns yes
 
 - name: Устанавливаю DNS IP адрес ipa серверов "127.0.0.1"
   ansible.builtin.command:
-    cmd: nmcli con mod "{{ connection }}" ipv4.dns "127.0.0.1"
+    cmd: nmcli con mod "{{ conn }}" ipv4.dns "127.0.0.1"
   when: '"127.0.0.1" not in dns_check.stdout'
     
 - name: Перезагружаю ПК
