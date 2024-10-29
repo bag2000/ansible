@@ -61,7 +61,7 @@
     owner: root
     group: root
     mode: '0751'
-  register: dnsmasq_conf
+  notify: restart dnsmasq
 
 - name: Создаю резолв конфиг dnsmasq
   ansible.builtin.template:
@@ -70,13 +70,7 @@
     owner: root
     group: root
     mode: '0644'
-  register: dnsmasq_conf
-
-- name: Перезапускаю службу dnsmasq
-  service:
-    name: dnsmasq
-    state: restarted
-  when: dnsmasq_conf.changed
+  notify: restart dnsmasq
 
 - name: Проверяю DNS
   ansible.builtin.shell: 'nmcli con show "{{ connection }}" | grep "IP4.DNS\[1\]"'
