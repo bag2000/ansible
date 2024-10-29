@@ -113,6 +113,14 @@
         mode: '0644'
       register: krb5_check
 
+- name: print
+  debug:
+    msg: {{ sssd_check.changed }}
+
+- name: print
+  debug:
+    msg: {{ krb5_check.changed }}
+
 - name: restart sssd
   when: sssd_check.changed == true or krb5_check.changed == true
   block:
