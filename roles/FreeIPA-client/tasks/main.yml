@@ -1,3 +1,4 @@
+---
 - name: Меняю имя ОС
   ansible.builtin.hostname:
     name: "{{ inventory_hostname }}"
@@ -114,13 +115,9 @@
         mode: '0644'
       register: krb5_check
 
-- name: print
-  debug:
-    msg: "{{ sssd_check.changed }}"
-
-- name: print
-  debug:
-    msg: "{{ krb5_check.changed }}"
+- name: Include task list in play
+  ansible.builtin.import_tasks:
+    file: Astra.yml
 
 - name: restart sssd
   when: sssd_check.changed == true or krb5_check.changed == true

@@ -1,0 +1,8 @@
+---
+- name: print
+  debug:
+    msg: "{{ sssd_check.changed }}"
+
+- name: print
+  debug:
+    msg: "{{ krb5_check.changed }}"
