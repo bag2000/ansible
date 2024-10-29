@@ -8,20 +8,20 @@
 
       ad_realm: "T8.CORP"
       ad_domain: "t8.corp"
+      dc01_ip: "192.168.8.32"
+      dc02_ip: "192.168.8.20"
+      dc01_name: "ad.t8.corp"
+      dc02_name: "adhard.t8.corp"
 
       ipa_domain: "ipa.t8.corp"
       ipa_admin_pass: "12345678"
       ipa_realm: "IPA.T8.CORP"
+      ipa1_ip: "192.168.8.185"
+      ipa2_ip: "192.168.8.186"
+      ipa1_name: "ipa1.ipa.t8.corp"
+      ipa2_name: "ipa2.ipa.t8.corp"
 
       repo_main: "deb https://dl.astralinux.ru/astra/stable/1.8_x86-64/main-repository/ 1.8_x86-64 main contrib non-free"
       repo_extended: "deb https://dl.astralinux.ru/astra/stable/1.8_x86-64/extended-repository/ 1.8_x86-64 main contrib non-free"
 
-      ipa1_ip: "192.168.8.185"
-      ipa2_ip: "192.168.8.186"
-      dc01_ip: "192.168.8.32"
-      dc02_ip: "192.168.8.20"
 
-      ipa1_name: "ipa1.ipa.t8.corp"
-      ipa2_name: "ipa2.ipa.t8.corp"
-      dc01_name: "ad.t8.corp"
-      dc02_name: "adhard.t8.corp"
