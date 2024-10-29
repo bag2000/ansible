@@ -101,3 +101,11 @@
     group: root
     mode: '0644'
 #   notify: restart dnsmasq
+
+- name: Создаю конфиг krb5.conf
+  ansible.builtin.template:
+    src: templates/krb5.conf
+    dest: /etc/sssd/krb5.conf.2
+    owner: root
+    group: root
+    mode: '0644'
