@@ -98,4 +98,6 @@
 - name: Добавляем ipa1 в hosts
   lineinfile:
     path: "/etc/hosts"
-    line: "192.168.8.185 ipa1.ipa.t8.corp"
+    line:
+      - "192.168.8.185 ipa1.ipa.t8.corp ipa1"
+      - "192.168.8.186 ipa2.ipa.t8.corp ipa2"
