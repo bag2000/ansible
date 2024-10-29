@@ -79,8 +79,7 @@
   when: dnsmasq_conf.changed
 
 - name: Проверяю DNS
-  ansible.builtin.command:
-    cmd: nmcli con show "Проводное соединение 1" | grep "IP4.DNS\[1\]" | awk '{print $2}'
+  ansible.builtin.shell: 'nmcli con show "Проводное соединение 1" | grep "IP4.DNS\[1\]" | awk "{print $2}"'
   register: dns_check
 
 - name: DNS
