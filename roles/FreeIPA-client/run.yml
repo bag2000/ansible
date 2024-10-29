@@ -5,7 +5,7 @@
   vars:
       hostname: "new"
       conn: "Проводное соединение 1"
-      ipa_domain: ipa.t8.corp"
+      ipa_domain: "ipa.t8.corp"
       ipa_admin_pass: "12345678"
 
       repo_main: "deb https://dl.astralinux.ru/astra/stable/1.8_x86-64/main-repository/ 1.8_x86-64 main contrib non-free"
