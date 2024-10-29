@@ -3,3 +3,17 @@
   ansible.builtin.service:
     name: dnsmasq
     state: restarted
+
+- name: restart sssd
+  block:
+    - name: Останавливаем службу sssd
+      ansible.builtin.service:
+        name: sssd
+        state: stopped
+
+    - name: Чистим кэш sssd
+      ansible.builtin.command:
+        cmd: rm -rf /var/lib/sss/db/*
+
+    - name: Перезапускаю ПК
+      ansible.builtin.reboot:
