@@ -91,9 +91,15 @@
       - "{{ dc01_ip }} {{ dc01_name }}"
       - "{{ dc02_ip }} {{ dc02_name }}"
 
+- name: Проверяю, находится ли ПК в домене
+  ansible.builtin.command:
+    cmd: 'astra-freeipa-client -i | grep ipa.t8.corp | wc -l'
+  register: domain_check
+
 - name: Ввожу ПК в домен
   ansible.builtin.command:
     cmd: astra-freeipa-client -p {{ ipa_admin_pass }} -y
+  when: domain_check.stdout == "1"
 
 - name: Обновляю sssd и krb5
   block:
