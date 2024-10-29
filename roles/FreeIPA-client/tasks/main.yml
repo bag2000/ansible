@@ -102,6 +102,7 @@
         owner: root
         group: root
         mode: '0600'
+      register: sssd
 
     - name: Создаю конфиг krb5.conf
       ansible.builtin.template:
@@ -110,4 +111,12 @@
         owner: root
         group: root
         mode: '0644'
-  notify: restart sssd
+      register: krb5
+
+- name: Print sssd
+  debug:
+    msg: "{{ sssd }}"
+
+- name: Print krb5
+  debug:
+    msg: "{{ krb5 }}"
