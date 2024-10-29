@@ -41,8 +41,6 @@
     name:
       - dnsmasq
       - astra-freeipa-client
-      - ntpsec
-      - ntp
     state: present
 
 - name: Создаю конфиг dnsmasq
