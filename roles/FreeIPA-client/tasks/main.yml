@@ -98,7 +98,11 @@
 - name: Ввожу ПК в домен
   ansible.builtin.command:
     cmd: astra-freeipa-client -p {{ ipa_admin_pass }} -y
-  when: '"1" in domain_check.stdout'
+  when: '"1" not in domain_check.stdout'
+
+- name: print
+  debug:
+    msg: "{{ domain_check.stdout }}"
 
 - name: Обновляю sssd и krb5
   block:
