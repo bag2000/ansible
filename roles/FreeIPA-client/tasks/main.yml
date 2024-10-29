@@ -102,7 +102,7 @@
         owner: root
         group: root
         mode: '0600'
-      register: sssd
+      register: sssd_check
 
     - name: Создаю конфиг krb5.conf
       ansible.builtin.template:
@@ -111,12 +111,19 @@
         owner: root
         group: root
         mode: '0644'
-      register: krb5
+      register: krb5_check
 
-- name: Print sssd
-  debug:
-    msg: "{{ sssd }}"
+- name: restart sssd
+  when: sssd_check.changed == "true" or krb5_check.changed == "true"
+  block:
+    - name: Останавливаем службу sssd
+      ansible.builtin.service:
+        name: sssd
+        state: stopped
 
-- name: Print krb5
-  debug:
-    msg: "{{ krb5 }}"
+    - name: Чистим кэш sssd
+      ansible.builtin.command:
+        cmd: rm -rf /var/lib/sss/db/*
+
+    - name: Перезапускаю ПК
+      ansible.builtin.reboot:
