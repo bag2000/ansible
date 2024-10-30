@@ -2,5 +2,3 @@
   become: true
   roles:
     - "../FreeIPA-sssd"
-  vars:
-      need_reboot_sssd: false
