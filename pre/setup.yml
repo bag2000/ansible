@@ -1,5 +1,5 @@
 - name: Get system facts
-  hosts: "{{ hosts }}"
+  hosts: "{{ clients }}"
   become: true
   vars:
     facts: "['os_family']"
