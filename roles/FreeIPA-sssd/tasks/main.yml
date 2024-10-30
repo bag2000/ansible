@@ -31,6 +31,12 @@
       ansible.builtin.command:
         cmd: rm -rf /var/lib/sss/db/*
 
+    - name: Запускаем службу sssd
+      ansible.builtin.service:
+        name: sssd
+        state: started
+      when: need_reboot_sssd == false
+
     - name: Перезапускаю ПК
       ansible.builtin.reboot:
         reboot_timeout: 3600
