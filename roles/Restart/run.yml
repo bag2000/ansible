@@ -1,0 +1,7 @@
+- hosts: "{{ clients }}"
+  become: true
+  roles:
+    - "../Restart"
+  vars:
+    need_reboot: "false"
+    services: "['bluetooth', 'cron']"

@@ -1,0 +1,6 @@
+---
+- name: Останавливаю службы
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: stopped
+  loop: "{{ services }}"
