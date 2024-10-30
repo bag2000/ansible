@@ -12,3 +12,5 @@
       ipa_realm: "IPA.T8.CORP"
       ipa1_name: "ipa1.ipa.t8.corp"
       ipa2_name: "ipa2.ipa.t8.corp"
+
+      need_reboot_sssd: false

@@ -34,3 +34,4 @@
     - name: Перезапускаю ПК
       ansible.builtin.reboot:
         reboot_timeout: 3600
+      when: need_reboot_sssd == true
