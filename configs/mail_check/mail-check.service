@@ -1,13 +1,14 @@
 [Unit]
 Description=My test service
-After=multi-user.target
- 
+After=network.target
+
 [Service]
-User=adm2
-Group=adm2
+User=root
 Type=simple
-Restart=always
+WorkingDirectory=/home/adm2/polybar-scripts/mail
 ExecStart=/usr/bin/python3 /home/adm2/polybar-scripts/mail/mail.py
- 
+Restart=on-failure
+RestartSec=10s
+
 [Install]
 WantedBy=multi-user.target
