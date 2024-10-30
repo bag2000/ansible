@@ -1,6 +1,8 @@
 - name: Get system facts
   hosts: "{{ hosts }}"
   become: true
+  vars:
+    facts: "['os_family']"
   tasks:
     - name: Print all available facts
       ansible.builtin.debug:
