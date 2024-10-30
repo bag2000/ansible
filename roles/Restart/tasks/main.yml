@@ -4,6 +4,7 @@
     name: "{{ item }}"
     state: stopped
   loop: "{{ services }}"
+  ignore_errors: true
 
 - name: Чищу кэш
   ansible.builtin.shell:
@@ -18,9 +19,9 @@
     name: "{{ item }}"
     state: started
   loop: "{{ services }}"
-  when: need_reboot == "false"
+  when: need_reboot == "yes"
 
 - name: Перезапускаю ПК
   ansible.builtin.reboot:
     reboot_timeout: 3600
-  when: need_reboot == "true"
+  when: need_reboot == "no"

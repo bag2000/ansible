@@ -3,7 +3,4 @@
   roles:
     - "../Restart"
   vars:
-    need_reboot: "false"
-    services: "['bluetooth', 'cron']"
-    clients: "clients"
-    
+    need_reboot: "no"
