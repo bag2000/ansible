@@ -19,9 +19,10 @@
     name: "{{ item }}"
     state: started
   loop: "{{ services }}"
-  when: need_reboot == "yes"
+  when: need_reboot == "no"
+  ignore_errors: true
 
 - name: Перезапускаю ПК
   ansible.builtin.reboot:
     reboot_timeout: 3600
-  when: need_reboot == "no"
+  when: need_reboot == "yes"
