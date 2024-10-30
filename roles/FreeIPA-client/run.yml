@@ -4,10 +4,6 @@
     - "../FreeIPA-client"
     - "../FreeIPA-sssd"
   vars:
-      hostname: "new"
-      conn: "Проводное соединение 1"
-
-      ad_realm: "T8.CORP"
       ad_domain: "t8.corp"
       dc01_ip: "192.168.8.32"
       dc02_ip: "192.168.8.20"
