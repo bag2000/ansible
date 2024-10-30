@@ -35,7 +35,7 @@
       ansible.builtin.service:
         name: sssd
         state: started
-      when: false in need_reboot_sssd == "false"
+      when: need_reboot_sssd == "false"
 
     - name: Перезапускаю ПК
       ansible.builtin.reboot:
