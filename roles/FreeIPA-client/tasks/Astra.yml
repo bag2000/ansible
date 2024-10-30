@@ -25,6 +25,7 @@
 - name: Проверяю, установлен ли пакет astra-freeipa-client
   ansible.builtin.shell: 'dpkg -s "astra-freeipa-client" | grep "Status: install ok installed" | wc -l'
   register: check_freipa_clint_package
+  changed_when: false
 
 - name: Удаляю конфликтующие службы
   when: check_freipa_clint_package.stdout != '1'
@@ -66,10 +67,12 @@
 - name: Проверяю DNS
   ansible.builtin.shell: 'nmcli con show "{{ conn }}" | grep "IP4.DNS\[1\]"'
   register: dns_check
+  changed_when: false
 
 - name: Запрещаю использовать IP-адреса серверов DNS, предоставляемые DHCP-сервером
   ansible.builtin.command:
     cmd: nmcli con mod "{{ conn }}" ipv4.ignore-auto-dns yes
+  changed_when: false
 
 - name: Устанавливаю DNS IP адрес ipa серверов "127.0.0.1"
   ansible.builtin.command:
