@@ -1,0 +1,13 @@
+[Unit]
+Description=My test service
+After=multi-user.target
+ 
+[Service]
+User=adm2
+Group=adm2
+Type=simple
+Restart=always
+ExecStart=/usr/bin/python3 /home/adm2/polybar-scripts/mail/mail.py
+ 
+[Install]
+WantedBy=multi-user.target
