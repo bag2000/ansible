@@ -22,7 +22,7 @@ services:
       SEMAPHORE_DB_DIALECT: postgres
       SEMAPHORE_DB: semaphore
       SEMAPHORE_PLAYBOOK_PATH: /tmp/semaphore/
-      SEMAPHORE_ADMIN_PASSWORD: NJI(nhy6
+      SEMAPHORE_ADMIN_PASSWORD: 12345678
       SEMAPHORE_ADMIN_NAME: admin
       SEMAPHORE_ADMIN_EMAIL: admin@localhost
       SEMAPHORE_ADMIN: admin

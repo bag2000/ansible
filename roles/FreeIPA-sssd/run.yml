@@ -1,0 +1,14 @@
+- hosts: "{{ clients }}"
+  become: true
+  roles:
+    - "../FreeIPA-sssd"
+  vars:
+      ad_realm: "T8.CORP"      
+      ad_domain: "t8.corp"
+      dc01_name: "ad.t8.corp"
+      dc02_name: "adhard.t8.corp"
+
+      ipa_domain: "ipa.t8.corp"
+      ipa_realm: "IPA.T8.CORP"
+      ipa1_name: "ipa1.ipa.t8.corp"
+      ipa2_name: "ipa2.ipa.t8.corp"
