@@ -17,10 +17,10 @@
   ansible.builtin.service:
     name: "{{ item }}"
     state: started
-  when: need_reboot_sssd == "false"
   loop: "{{ services }}"
+  when: need_reboot == "false"
 
 - name: Перезапускаю ПК
   ansible.builtin.reboot:
     reboot_timeout: 3600
-  when: need_reboot_sssd == "true"
+  when: need_reboot == "true"
