@@ -4,5 +4,5 @@
     - "../Restart"
   vars:
     need_reboot: "false"
-    services: "['bluetooth', 'cron']"
+    services: "[bluetooth, cron]"
     clients: "clients"

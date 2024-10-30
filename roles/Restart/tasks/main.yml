@@ -4,3 +4,17 @@
     name: "{{ item }}"
     state: stopped
   loop: "{{ services }}"
+
+- name: Чищу кэш
+  ansible.builtin.command:
+    cmd: 'sync; echo 1 > /proc/sys/vm/drop_caches'
+
+- name: Сбрасываю своп
+  ansible.builtin.command:
+    cmd: 'swapoff -a; swapon -a'
+  
+- name: Запускаю службы
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: started
+  loop: "{{ services }}"
