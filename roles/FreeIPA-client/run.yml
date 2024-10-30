@@ -3,3 +3,6 @@
   roles:
     - "../FreeIPA-client"
     - "../FreeIPA-sssd"
+  vars:
+    conn: "Проводное соединение 1"
+    need_reboot_sssd: "true"
