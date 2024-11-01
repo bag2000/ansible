@@ -39,50 +39,81 @@
         name: chrony
         state: absent
 
-- name: Устанавливаю dnsmasq, astra-freeipa-client
+- name: Устанавливаю astra-freeipa-client
   ansible.builtin.apt:
     name:
-      - dnsmasq
       - astra-freeipa-client
     state: present
 
-- name: Создаю конфиг dnsmasq
-  ansible.builtin.template:
-    src: templates/dnscache.conf
-    dest: /etc/dnsmasq.d/dnscache.conf
-    owner: root
-    group: root
-    mode: '0751'
-  notify: restart dnsmasq
+- name: Настраиваю dnsmasq
+  when: dnsmask_install == "yes"
+  block:
+    - name: Устанавливаю dnsmasq
+      ansible.builtin.apt:
+        name:
+          - dnsmasq
+        state: present
 
-- name: Создаю резолв конфиг dnsmasq
-  ansible.builtin.template:
-    src: templates/resolv.dnsmasq
-    dest: /etc/resolv.dnsmasq
-    owner: root
-    group: root
-    mode: '0644'
-  notify: restart dnsmasq
+    - name: Создаю конфиг dnsmasq
+      ansible.builtin.template:
+        src: templates/dnscache.conf
+        dest: /etc/dnsmasq.d/dnscache.conf
+        owner: root
+        group: root
+        mode: '0751'
+      notify: restart dnsmasq
 
-- name: Проверяю DNS
-  ansible.builtin.shell: 'nmcli con show "{{ conn }}" | grep "IP4.DNS\[1\]"'
-  register: dns_check
-  changed_when: false
+    - name: Создаю резолв конфиг dnsmasq
+      ansible.builtin.template:
+        src: templates/resolv.dnsmasq
+        dest: /etc/resolv.dnsmasq
+        owner: root
+        group: root
+        mode: '0644'
+      notify: restart dnsmasq
 
-- name: Запрещаю использовать IP-адреса серверов DNS, предоставляемые DHCP-сервером
-  ansible.builtin.command:
-    cmd: nmcli con mod "{{ conn }}" ipv4.ignore-auto-dns yes
-  changed_when: false
+    - name: Проверяю DNS
+      ansible.builtin.shell: 'nmcli con show "{{ conn }}" | grep "IP4.DNS\[1\]"'
+      register: dns_check
+      changed_when: false
 
-- name: Устанавливаю DNS IP адрес ipa серверов "127.0.0.1"
-  ansible.builtin.command:
-    cmd: nmcli con mod "{{ conn }}" ipv4.dns "127.0.0.1"
-  when: '"127.0.0.1" not in dns_check.stdout'
+    - name: Запрещаю использовать IP-адреса серверов DNS, предоставляемые DHCP-сервером
+      ansible.builtin.command:
+        cmd: nmcli con mod "{{ conn }}" ipv4.ignore-auto-dns yes
+      changed_when: false
 
-- name: Перезагружаю ПК
-  ansible.builtin.reboot:
-    reboot_timeout: 3600
-  when: '"127.0.0.1" not in dns_check.stdout'
+    - name: Устанавливаю DNS IP адрес ipa серверов "127.0.0.1"
+      ansible.builtin.command:
+        cmd: nmcli con mod "{{ conn }}" ipv4.dns "127.0.0.1"
+      when: '"127.0.0.1" not in dns_check.stdout'
+
+    - name: Перезагружаю ПК
+      ansible.builtin.reboot:
+        reboot_timeout: 3600
+      when: '"127.0.0.1" not in dns_check.stdout'
+
+- name: Настраиваю DNS
+  when: dnsmask_install == "no"
+  block:
+    - name: Запрещаю использовать IP-адреса серверов DNS, предоставляемые DHCP-сервером
+      ansible.builtin.command:
+        cmd: nmcli con mod "{{ conn }}" ipv4.ignore-auto-dns yes
+      changed_when: false
+
+    - name: Проверяю DNS
+      ansible.builtin.shell: 'nmcli con show "{{ conn }}" | grep "IP4.DNS\[1\]"'
+      register: dns_check
+      changed_when: false
+
+    - name: Устанавливаю DNS IP адрес ipa серверов
+      ansible.builtin.command:
+        cmd: nmcli con mod "{{ conn }}" ipv4.dns "{{ ipa1_ip }} {{ ipa2_ip }}"
+      when: '"{{ ipa1_ip }}" not in dns_check.stdout'
+
+    - name: Перезагружаю ПК
+      ansible.builtin.reboot:
+        reboot_timeout: 3600
+      when: '"{{ ipa1_ip }}" not in dns_check.stdout'
 
 - name: Добавляем контроллеры ipa и dc в hosts
   lineinfile:
