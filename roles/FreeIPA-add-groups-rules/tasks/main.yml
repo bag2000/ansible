@@ -2,3 +2,7 @@
 - name: Получаю имя группы
   ansible.builtin.split:
     listname: "{{ 'jojo is a' | split }}"
+
+- name: Сообщение
+  ansible.builtin.debug:
+    msg: "{{ listname }}"
