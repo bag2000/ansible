@@ -11,9 +11,7 @@
   changed_when: false
 
 - name: Текст
-  when:
-    - check_freipa_client_package.stdout == '1'
-    - check_freipa_client_in_domain.stdout == '1'
+  when: check_freipa_client_package.stdout == '1' and check_freipa_client_in_domain.stdout == '1'
   debug:
     msg: "{{ check_freipa_client_in_domain }}"
 
