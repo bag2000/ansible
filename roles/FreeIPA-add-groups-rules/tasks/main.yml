@@ -38,7 +38,9 @@
 - name: Создаю HBAC правило
   community.general.ipa_hbacrule:
     name: "{{ item | split('@') | first }}"
-    usergroup: "{{ item | split('@') | first }}"
+    usergroup:
+      - "{{ item | split('@') | first }}"
+      - "{{ item | split('@') | first }}-ext"
     servicecategory: all
     host: "{{ dst_host }}"
     state: present
