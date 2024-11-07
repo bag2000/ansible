@@ -1,0 +1,7 @@
+- hosts: "{{ ipa1_ip }}"
+  become: true
+  roles:
+    - "../FreeIPA-del-host-from-ipa"
+  vars:
+    # ipa1_ip: 192.168.88.88      # IP адрес IPA сервера
+    # ipa_admin_pass: superpass   # Пароль от учетной записи администратора
