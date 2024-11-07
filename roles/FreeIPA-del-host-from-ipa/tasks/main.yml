@@ -4,4 +4,4 @@
     name: "{{ inventory_hostname }}"
     state: absent
     ipa_user: admin
-    ipa_pass: {{ ipa_admin_pass }}
+    ipa_pass: "{{ ipa_admin_pass }}"
