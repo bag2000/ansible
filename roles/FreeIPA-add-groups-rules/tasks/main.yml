@@ -6,4 +6,4 @@
 - name: Non-optimal yum, slower and may cause issues with interdependencies
   ansible.builtin.debug:
     msg: "{{ item }}"
-  loop: "{{ list_users }}"
+  loop: "{{ list_users | split('@') }}"
