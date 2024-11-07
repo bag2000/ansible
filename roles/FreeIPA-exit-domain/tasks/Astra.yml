@@ -13,7 +13,7 @@
 - name: Текст
   when:
     - check_freipa_client_package.stdout == '1'
-    - check_freipa_client_in_domain.stdout == '10'
+    - check_freipa_client_in_domain.stdout == '1'
   debug:
     msg: "{{ check_freipa_client_in_domain }}"
 
