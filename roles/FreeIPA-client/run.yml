@@ -7,3 +7,5 @@
     conn: "Проводное соединение 1"
     need_reboot_sssd: "true"
     dnsmask_install: "yes"
+
+    
