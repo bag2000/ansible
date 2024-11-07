@@ -33,6 +33,7 @@
     ipa_user: admin
     ipa_pass: "{{ ipa_admin_pass }}"
   loop: "{{ list_users }}"
+  ignore_errors: true
 
 - name: Создаю HBAC правило
   community.general.ipa_hbacrule:
