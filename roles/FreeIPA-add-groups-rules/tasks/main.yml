@@ -38,7 +38,7 @@
   community.general.ipa_hbacrule:
     name: "{{ item | split('@') | first }}"
     servicecategory: all
-    sourcehost: "{{ src_host }}"
+    host: "{{ dst_host }}"
     state: present
     validate_certs: false
     ipa_user: admin
