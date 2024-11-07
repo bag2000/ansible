@@ -5,7 +5,19 @@
   loop: "{{ list_users }}"
   changed_when: false
 
+# - name: Создаю группу для пользователя (external)
+#   ansible.builtin.debug:
+#     msg: "{{ item | split('@') | first }}"
+#   loop: "{{ list_users }}"
+
 - name: Создаю группу для пользователя (external)
-  ansible.builtin.debug:
-    msg: "{{ item | split('@') | first }}"
+  community.general.ipa_group:
+    name: "{{ item | split('@') | first }}"
+    external: true
+    append: true
+    external_user:
+      - {{ item }}
+    validate_certs: false
+    ipa_user: admin
+    ipa_pass: "{{ ipa_admin_pass }}"
   loop: "{{ list_users }}"
