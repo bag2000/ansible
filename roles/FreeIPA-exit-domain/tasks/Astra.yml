@@ -10,12 +10,15 @@
   register: check_freipa_client_in_domain
   changed_when: false
 
-- name: Текст
-  when: check_freipa_client_package.stdout == '1' and check_freipa_client_in_domain.stdout == '1'
-  debug:
-    msg: "{{ check_freipa_client_in_domain }}"
 
-- name: Вывожу ПК из домена
+- name: Вывод из домена
   when: check_freipa_client_package.stdout == '1' and check_freipa_client_in_domain.stdout == '1'
-  ansible.builtin.shell: 'astra-freeipa-client -U -y'
-  changed_when: false
+  block:
+    - name: Вывожу ПК из домена
+      ansible.builtin.shell: 'astra-freeipa-client -U -y'
+      changed_when: false
+      register: exit_domain_output
+
+    - name: Текст
+      debug:
+        msg: "{{ exit_domain_output.stdout }}"
