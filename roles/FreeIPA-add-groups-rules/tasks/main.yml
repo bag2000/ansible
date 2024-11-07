@@ -38,6 +38,8 @@
 - name: Создаю HBAC правило
   community.general.ipa_hbacrule:
     name: "{{ item | split('@') | first }}"
+    append: true
+    usergroup: "{{ item | split('@') | first }}"
     servicecategory: all
     host: "{{ dst_host }}"
     state: present
