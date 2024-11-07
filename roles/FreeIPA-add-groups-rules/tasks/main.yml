@@ -16,7 +16,7 @@
     external: true
     append: true
     external_user:
-      - {{ item }}
+      - "{{ item }}"
     validate_certs: false
     ipa_user: admin
     ipa_pass: "{{ ipa_admin_pass }}"
