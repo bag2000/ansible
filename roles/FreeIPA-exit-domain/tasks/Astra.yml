@@ -12,7 +12,7 @@
 
 - name: Текст
   debug:
-    msg: {{ check_freipa_client_in_domain }}
+    msg: "{{ check_freipa_client_in_domain }}"
 
 # - name: Вывожу ПК из домена
 #   ansible.builtin.shell: 'astra-freeipa-client -U -y'
