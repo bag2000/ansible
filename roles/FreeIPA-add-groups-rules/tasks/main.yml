@@ -1,7 +1,7 @@
 ---
 - name: Split Simple String Example
   debug:
-    msg: "{{ nm }}"
+    msg: "{{ list_users }}"
 
 - name: Non-optimal yum, slower and may cause issues with interdependencies
   ansible.builtin.debug:
