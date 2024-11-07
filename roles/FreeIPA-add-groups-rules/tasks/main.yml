@@ -10,7 +10,7 @@
 #     msg: "{{ item | split('@') | first }}"
 #   loop: "{{ list_users }}"
 
-- name: Создаю группу для пользователя (external)
+- name: Создаю группу (external)
   community.general.ipa_group:
     name: "{{ item | split('@') | first }}-ext"
     external: true
@@ -22,12 +22,24 @@
     ipa_pass: "{{ ipa_admin_pass }}"
   loop: "{{ list_users }}"
 
-- name: Создаю группу для пользователя (posix)
+- name: Создаю группу (posix)
   community.general.ipa_group:
     name: "{{ item | split('@') | first }}"
+    external: false
     append: true
     group:
       - "{{ item | split('@') | first }}-ext"
+    validate_certs: false
+    ipa_user: admin
+    ipa_pass: "{{ ipa_admin_pass }}"
+  loop: "{{ list_users }}"
+
+- name: Создаю HBAC правило
+  community.general.ipa_hbacrule:
+    name: "{{ item | split('@') | first }}"
+    servicecategory: all
+    sourcehost: "{{ src_host }}"
+    state: present
     validate_certs: false
     ipa_user: admin
     ipa_pass: "{{ ipa_admin_pass }}"
