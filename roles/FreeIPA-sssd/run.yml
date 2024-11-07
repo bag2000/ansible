@@ -3,4 +3,4 @@
   roles:
     - "../FreeIPA-sssd"
   vars:
-    need_reboot_sssd: "no"
+    need_reboot_sssd: "n"

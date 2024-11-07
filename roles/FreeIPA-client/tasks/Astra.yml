@@ -46,7 +46,7 @@
     state: present
 
 - name: Настраиваю dnsmasq
-  when: dnsmask_install == "yes"
+  when: dnsmask_install == "y"
   block:
     - name: Устанавливаю dnsmasq
       ansible.builtin.apt:

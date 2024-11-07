@@ -5,7 +5,7 @@
     - "../FreeIPA-sssd"
   vars:
     conn: "Проводное соединение 1"
-    need_reboot_sssd: "true"
-    dnsmask_install: "yes"
-
+    need_reboot_sssd: "y"
+    dnsmask_install: "y"
+    dst_host: "{{ inventory_hostname }}"    # Название сервера для роли FreeIPA-add-groups-rules
     
