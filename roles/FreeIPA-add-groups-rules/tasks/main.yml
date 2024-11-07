@@ -53,6 +53,7 @@
   community.general.ipa_sudorule:
     name: "{{ item | split('@') | first }}"
     host: "{{ dst_host }}"
+    cmd: all
     sudoopt:
     - '!authenticate'
     usergroup:
