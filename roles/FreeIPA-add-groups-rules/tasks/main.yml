@@ -8,3 +8,4 @@
 - name: Создаю группу для пользователя (external)
   ansible.builtin.debug:
     msg: "{{ item }} | split('@')"
+  loop: "{{ list_users }}"
