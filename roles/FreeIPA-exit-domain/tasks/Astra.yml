@@ -10,6 +10,10 @@
   register: check_freipa_client_in_domain
   changed_when: false
 
+- name: Сообщение о том, что ПК не в домене
+  ansible.builtin.debug:
+    msg: 'ПК не в домене'
+  when: check_freipa_client_package.stdout == '1' or check_freipa_client_in_domain.stdout == '1'
 
 - name: Вывод из домена
   when: check_freipa_client_package.stdout == '1' and check_freipa_client_in_domain.stdout == '1'
@@ -22,3 +26,7 @@
     - name: Текст
       debug:
         msg: "{{ exit_domain_output.stdout }}"
+
+    - name: Перезагружаю ПК
+      ansible.builtin.reboot:
+        reboot_timeout: 3600
