@@ -1,0 +1,5 @@
+---
+- name: Astra
+  ansible.builtin.import_tasks:
+    file: Astra.yml
+  when: ansible_facts['os_family'] == "Astra Linux"

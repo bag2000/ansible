@@ -1,0 +1,18 @@
+---
+- name: Проверяю, установлен ли пакет astra-freeipa-client
+  ansible.builtin.shell: 'dpkg -s "astra-freeipa-client" | grep "Status: install ok installed" | wc -l'
+  register: check_freipa_client_package
+  changed_when: false
+
+- name: Проверяю, находится ли ПК в домене
+  when: check_freipa_client_package.stdout != '1'
+  ansible.builtin.shell: 'astra-freeipa-client -i | grep -c ipa.t8.corp'
+  register: check_freipa_client_in_domain
+  changed_when: false
+
+- name: Текст
+  debug:
+    msg: {{ check_freipa_client_in_domain }}
+
+# - name: Вывожу ПК из домена
+#   ansible.builtin.shell: 'astra-freeipa-client -U -y'

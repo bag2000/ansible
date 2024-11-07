@@ -1,0 +1,8 @@
+- hosts: "{{ clients }}"
+  become: true
+  roles:
+    #- "../FreeIPA-del-host-from-ipa"
+    - "../FreeIPA-exit-domain"
+  vars:
+    need_reboot: "y"
+    
