@@ -25,7 +25,6 @@
 - name: Создаю группу для пользователя (posix)
   community.general.ipa_group:
     name: "{{ item | split('@') | first }}"
-    external: true
     append: true
     group:
       - "{{ item | split('@') | first }}-ext"
