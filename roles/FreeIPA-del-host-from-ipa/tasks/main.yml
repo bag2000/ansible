@@ -3,6 +3,6 @@
   community.general.ipa_host:
     name: "{{ inventory_hostname }}"
     state: absent
-    ipauserauthtype: ['password']
+    validate_certs: false
     ipa_user: admin
     ipa_pass: "{{ ipa_admin_pass }}"
