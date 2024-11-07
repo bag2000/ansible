@@ -3,7 +3,8 @@
   debug:
     msg: "{{ list_users }}"
 
-- name: Non-optimal yum, slower and may cause issues with interdependencies
+- name: Проверяю, существует ли пользователь
   ansible.builtin.command:
     cmd: 'id "{{ item }}"'
   loop: "{{ list_users }}"
+  changed_when: false
