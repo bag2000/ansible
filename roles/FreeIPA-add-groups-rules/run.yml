@@ -1,0 +1,7 @@
+- hosts: "{{ ipa1_name }}"
+  become: true
+  roles:
+    - "../FreeIPA-add-groups-rules"
+  vars:
+    # ipa1_name: ipa1.ipa.example.com   # Название IPA сервера в инвентори
+    # ipa_admin_pass: superpass         # Пароль от учетной записи администратора

@@ -23,7 +23,7 @@
       changed_when: false
       register: exit_domain_output
 
-    - name: Текст
+    - name: Сообщение
       debug:
         msg: "{{ exit_domain_output.stdout }}"
 

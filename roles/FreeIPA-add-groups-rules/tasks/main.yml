@@ -1,0 +1,4 @@
+---
+- name: Получаю имя группы
+  ansible.builtin.split:
+    
