@@ -6,4 +6,4 @@
     # ipa1_name: ipa1.ipa.example.com   # Название IPA сервера в инвентори
     # ipa_admin_pass: superpass         # Пароль от учетной записи администратора
     # nm: "{{ 'sarav@gritfy.com'|split('@') }}"
-    list_users: ['sarav@gritfy.com', 'sarav2@gritfy.com']
+    list_users: ['polyakov.rv@t8.corp']

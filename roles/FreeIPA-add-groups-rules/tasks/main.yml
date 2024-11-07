@@ -4,6 +4,6 @@
     msg: "{{ list_users }}"
 
 - name: Non-optimal yum, slower and may cause issues with interdependencies
-  ansible.builtin.debug:
-    msg: "{{ item | split('@') }}"
+  ansible.builtin.command:
+    cmd: 'id "{{ item }}"'
   loop: "{{ list_users }}"
