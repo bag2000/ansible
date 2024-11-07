@@ -7,5 +7,5 @@
 
 - name: Создаю группу для пользователя (external)
   ansible.builtin.debug:
-    msg: "{{ item }} | split('@')"
+    msg: "{{ item | split('@') }}[0]"
   loop: "{{ list_users }}"
