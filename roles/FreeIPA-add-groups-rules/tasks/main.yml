@@ -2,3 +2,8 @@
 - name: Split Simple String Example
   debug:
     msg: "{{ nm }}"
+
+- name: Non-optimal yum, slower and may cause issues with interdependencies
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ list_users }}"
