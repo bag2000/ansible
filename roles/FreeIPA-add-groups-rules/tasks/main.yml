@@ -12,11 +12,23 @@
 
 - name: Создаю группу для пользователя (external)
   community.general.ipa_group:
-    name: "{{ item | split('@') | first }}"
+    name: "{{ item | split('@') | first }}-ext"
     external: true
     append: true
     external_user:
       - "{{ item }}"
+    validate_certs: false
+    ipa_user: admin
+    ipa_pass: "{{ ipa_admin_pass }}"
+  loop: "{{ list_users }}"
+
+- name: Создаю группу для пользователя (posix)
+  community.general.ipa_group:
+    name: "{{ item | split('@') | first }}"
+    external: true
+    append: true
+    group:
+      - "{{ item | split('@') | first }}-ext"
     validate_certs: false
     ipa_user: admin
     ipa_pass: "{{ ipa_admin_pass }}"
