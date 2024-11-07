@@ -48,3 +48,17 @@
     ipa_user: admin
     ipa_pass: "{{ ipa_admin_pass }}"
   loop: "{{ list_users }}"
+
+- name: Создаю sudo правило
+  community.general.ipa_sudorule:
+    name: "{{ item | split('@') | first }}"
+    host: "{{ dst_host }}"
+    sudoopt:
+    - '!authenticate'
+    usergroup:
+      - "{{ item | split('@') | first }}"
+      - "{{ item | split('@') | first }}-ext"
+    validate_certs: false
+    ipa_user: admin
+    ipa_pass: "{{ ipa_admin_pass }}"
+  loop: "{{ list_users }}"
