@@ -6,7 +6,7 @@
 
 - name: Проверяю, находится ли ПК в домене
   when: check_freipa_client_package.stdout == '1'
-  ansible.builtin.command: 'astra-freeipa-client -i | grep -c ipa.t8.corp; echo OK'
+  ansible.builtin.shell: 'astra-freeipa-client -i | grep -c ipa.t8.corp; echo OK'
   register: check_freipa_client_in_domain
   ignore_errors: true
   changed_when: false
