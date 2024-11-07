@@ -1,8 +1,7 @@
 ---
-- name: Получаю имя группы
-  ansible.builtin.split:
-    listname: "{{ 'jojo is a' | split }}"
+- name: Split Simple String Example
+  debug: msg={{ 'sarav@gritfy.com'|split('@')}}
 
 - name: Сообщение
   ansible.builtin.debug:
-    msg: "{{ listname }}"
+    msg: "{{ msg }}"
