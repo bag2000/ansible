@@ -1,7 +1,4 @@
 ---
 - name: Split Simple String Example
-  debug: msg={{ 'sarav@gritfy.com'|split('@')}}
-
-- name: Сообщение
-  ansible.builtin.debug:
-    msg: "{{ msg }}"
+  debug:
+    msg: "{{ nm }}"
