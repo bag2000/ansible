@@ -93,7 +93,7 @@
       when: '"127.0.0.1" not in dns_check.stdout'
 
 - name: Настраиваю DNS
-  when: dnsmask_install == "no"
+  when: dnsmask_install == "n"
   block:
     - name: Запрещаю использовать IP-адреса серверов DNS, предоставляемые DHCP-сервером
       ansible.builtin.command:
