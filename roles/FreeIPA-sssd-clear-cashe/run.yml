@@ -1,0 +1,4 @@
+- hosts: "{{ clients }}"
+  become: true
+  roles:
+    - "../FreeIPA-sssd-clear-cashe"
