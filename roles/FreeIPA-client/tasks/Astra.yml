@@ -9,18 +9,18 @@
     regexp: '^(deb cdrom)'
     replace: '# \1'
 
-- name: Добавляю репозитории main и extended
+- name: Добавляю репозитории main и extended Astra Linux 1.8
   ansible.builtin.template:
     src: templates/repo-astra.list
     dest: /etc/apt/sources.list.d/repo-astra.list
     owner: root
     group: root
     mode: 0644
+  when: ansible_facts['os_family'] == "Astra Linux"
 
 - name: Обновляю репозитории
   ansible.builtin.apt:
     update_cache: true
-  when: ansible_facts['os_family'] == 'Astra Linux'
 
 - name: Проверяю, установлен ли пакет astra-freeipa-client
   ansible.builtin.shell: 'dpkg -s "astra-freeipa-client" | grep "Status: install ok installed" | wc -l'
