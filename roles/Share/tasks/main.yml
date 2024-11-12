@@ -1,12 +1,13 @@
 ---
-- name: Создаю скрипт для авто монтирования шары
+- nmae: Устанавливаю cifs-utils
+  ansible.builtin.package:
+    name: cifs-utils
+    state: present
+
+- name: Создаю скрипт для авто монтирования шары {{ srv_name_lower }}{{ share_name_modded }}
   ansible.builtin.template:
     src: templates/share_script.sh
     dest: /etc/profile.d/{{ script_name }}
     owner: root
     group: root
     mode: '0755'
-
-- name:  Сообщение
-  ansible.builtin.debug:
-    msg: "{{ script_name }}"
