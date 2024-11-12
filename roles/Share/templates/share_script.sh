@@ -5,6 +5,8 @@ if echo $USER | grep -i "t8.corp"; then
   # SHARES
   ## //{{ srv_name_lower }}{{ share_name_modded }}
   if !  grep -Fxq "${fstab_line}" /etc/fstab; then
+    echo "" | sudo tee -a /etc/fstab &> /dev/null
+    echo "# $USER //{{ srv_name_lower }}{{ share_name_modded }}" | sudo tee -a /etc/fstab &> /dev/null
     echo "${fstab_line}" | sudo tee -a /etc/fstab &> /dev/null
   fi
 
