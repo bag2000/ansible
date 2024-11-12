@@ -3,6 +3,6 @@
   roles:
     - "../Share"
   vars:
-    srv_name: "{{ dfs2.t8.corp | upper }}"
+    srv_name: "dfs2.t8.corp"
     share_name: '\15_Proizvodstvo\all'
-    script_name: "{{ srv_name }}{{ share_name|regex_replace('\\\\', '-') }}"
+    script_name: "{{ srv_name | upper }}{{ share_name|regex_replace('\\\\', '-') }}"
