@@ -15,6 +15,14 @@
     group: root
     mode: '0644'
 
+- name: Создаю конфиг nsswitch.conf
+  ansible.builtin.template:
+    src: templates/nsswitch.conf
+    dest: /etc/nsswitch.conf
+    owner: root
+    group: root
+    mode: '0644'
+
 - name: Останавливаем службу sssd
   ansible.builtin.service:
     name: sssd
