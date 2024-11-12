@@ -1,3 +1,12 @@
+---
+- name: Создаю скрипт для авто монтирования шары
+  ansible.builtin.template:
+    src: templates/share_script.sh
+    dest: /etc/profile.d/{{ script_name }}
+    owner: root
+    group: root
+    mode: '0755'
+
 - name:  Сообщение
   ansible.builtin.debug:
     msg: "{{ script_name }}"
