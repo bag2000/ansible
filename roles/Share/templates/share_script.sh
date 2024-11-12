@@ -10,4 +10,11 @@ if echo $USER | grep -i "t8.corp"; then
 
   # MOUNTS
   mount -m $HOME/ShareDocs/{{ dst_share_name }} &> /dev/null
+
+  smbclient {{ srv_name_lower }}{{ share_name_modded }} --kerberos -c quit &> /dev/null
+  if [$? -ne 0 ]; then
+    mkdir -p $HOME/ShareDocs/{{ dst_share_name }} &> /dev/null
+    mount -m $HOME/ShareDocs/{{ dst_share_name }} &> /dev/null
+  fi
+
 fi
