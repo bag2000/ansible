@@ -3,4 +3,6 @@
   roles:
     - "../Share"
   vars:
-    share_name: '\\dfs2.t8.corp\15_Proizvodstvo'
+    srv_name: "dfs2.t8.corp"
+    share_name: '\15_Proizvodstvo'
+    script_name: "{{ srv_name }}{{ share_name|regex_replace('\\\/', '-') }}"
