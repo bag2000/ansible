@@ -3,9 +3,10 @@
   roles:
     - "../Share"
   vars:
-    srv_name: "DFS2.t8.corp"
+    # srv_name: "DFS2.t8.corp"            # Название сервера шары, полное
+    # share_name: '\15_Proizvodstvo'      # Название шары, вместе со слешем
+
     srv_name_lower: "{{ srv_name | lower }}"
-    share_name: '\15_Proizvodstvo'
     share_name_modded: "{{ share_name | regex_replace('\\\\', '/')  }}"
     dst_share_name: "{{ share_name_modded | split('/') | last }}"
     script_name: "{{ srv_name_lower }}{{ share_name | regex_replace('\\\\', '-') }}"
