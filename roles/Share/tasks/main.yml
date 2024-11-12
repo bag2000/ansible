@@ -1,5 +1,5 @@
 ---
-- nmae: Устанавливаю cifs-utils
+- name: Устанавливаю cifs-utils
   ansible.builtin.package:
     name: cifs-utils
     state: present
