@@ -1,0 +1,3 @@
+- name:  Сообщение
+  ansible.builtin.debug:
+    msg: "{{ share_name }}"
