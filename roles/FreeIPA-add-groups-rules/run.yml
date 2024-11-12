@@ -5,5 +5,5 @@
   vars:
     # ipa1_name: ipa1.ipa.example.com   # Название IPA сервера в инвентори
     # ipa_admin_pass: superpass         # Пароль от учетной записи администратора
-    list_users: ['polyakov.rv@t8.corp', 'polyakov.rv2@t8.corp']
+    list_users: ['arkhipov@t8.ru', 'belskiy@t8.ru', 'vereshchagin@t8.ru', 'dolgopolov@t8.ru', 'kostuk@t8.ru', 'krivchik@t8.ru', 'manakov@t8.ru']
     dst_host: "{{ ipa1_name }}"
