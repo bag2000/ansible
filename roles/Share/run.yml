@@ -3,4 +3,4 @@
   roles:
     - "../Share"
   vars:
-    share_name: "{{ '\\dfs2.t8.corp\15_Proizvodstvo' }}"
+    share_name: '\\dfs2.t8.corp\15_Proizvodstvo'
