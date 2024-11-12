@@ -14,5 +14,4 @@ if echo $USER | grep -i "t8.corp"; then
     mkdir -p $HOME/ShareDocs/{{ dst_share_name }} &> /dev/null
     mount $HOME/ShareDocs/{{ dst_share_name }} &> /dev/null
   fi
-
 fi
