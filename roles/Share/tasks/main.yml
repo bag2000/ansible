@@ -36,6 +36,11 @@
     src: templates/mount.py
     dest: /root/scripts/{{ script_name }}.py
 
+- name: Создаю службу для запуска скрипта монтирования шары
+  ansible.builtin.template:
+    src: templates/service.service
+    dest: //etc/systemd/system/{{ script_name }}.service
+
 - name: Сообщение
   debug:
     msg: "{{ script_name }}"
