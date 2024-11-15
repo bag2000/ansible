@@ -46,7 +46,7 @@
 - name: Запускаю службу
   service:
     name: "{{ script_name }}.service"
-    state: started
+    state: restarted
     enabled: true
 
 
