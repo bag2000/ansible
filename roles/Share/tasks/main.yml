@@ -31,6 +31,11 @@
     path: /mnt/SharedDocs/{{ dst_share_name }}
     state: directory
 
+- name: Создаю скрипт для монтирования шары
+  ansible.builtin.template:
+    src: templates/mount.py
+    dest: /root/scripts/{{ script_name }}.py
+
 - name: Сообщение
   debug:
     msg: "{{ script_name }}"
