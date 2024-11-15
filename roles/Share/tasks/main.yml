@@ -16,7 +16,6 @@
     responses:
       ktutil:
         - "addent -password -p {{ kytab_user }} -k 1 -e rc4-hmac"
-        - "{{ key_tab_pass }}"
         - "wkt /etc/krb5-2.keytab"
         - "q"
       Password: "{{ key_tab_pass }}"
