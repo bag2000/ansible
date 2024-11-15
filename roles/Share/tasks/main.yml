@@ -45,7 +45,7 @@
 
 - name: Запускаю службу
   service:
-    name: /etc/systemd/system/{{ script_name }}.service
+    name: "{{ script_name }}.service"
     state: started
     enabled: true
 
