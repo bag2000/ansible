@@ -49,7 +49,6 @@
     state: restarted
     enabled: true
 
-
 - name: Сообщение
   debug:
     msg: "{{ script_name }}"
