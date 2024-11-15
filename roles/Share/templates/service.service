@@ -1,5 +1,5 @@
 [Unit]
-Description=Mount shares
+Description=Mount
 After=network.target
 
 [Service]

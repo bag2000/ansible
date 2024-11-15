@@ -18,6 +18,14 @@
     group: root
     mode: '0600'
 
+- name: Создаю папку для скриптов
+  ansible.builtin.file:
+    path: /root/scripts
+    state: directory
+    owner: root
+    group: root
+    mode: '0600'
+
 # - name: Создаю скрипт для авто монтирования шары {{ srv_name_lower }}{{ share_name_modded }}
 #   ansible.builtin.template:
 #     src: templates/share_script.sh
