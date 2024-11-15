@@ -31,14 +31,9 @@
 - name: Чистим кэш sssd
   ansible.builtin.command:
     cmd: rm -rf /var/lib/sss/db/*
+  when: clear_sssd_cache == "y"
 
 - name: Запускаем службу sssd
   ansible.builtin.service:
     name: sssd
     state: started
-  when: need_reboot_sssd == "n"
-
-- name: Перезапускаю ПК
-  ansible.builtin.reboot:
-    reboot_timeout: 3600
-  when: need_reboot_sssd == "y"
