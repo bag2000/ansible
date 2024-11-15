@@ -39,7 +39,16 @@
 - name: Создаю службу для запуска скрипта монтирования шары
   ansible.builtin.template:
     src: templates/service.service
-    dest: //etc/systemd/system/{{ script_name }}.service
+    dest: /etc/systemd/system/{{ script_name }}.service
+  notify:
+    - reload systemctl
+
+- name: Запускаю службу
+  service:
+    name: /etc/systemd/system/{{ script_name }}.service
+    state: started
+    enabled: true
+
 
 - name: Сообщение
   debug:
