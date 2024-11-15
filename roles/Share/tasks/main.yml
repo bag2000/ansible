@@ -26,6 +26,11 @@
     group: root
     mode: '0600'
 
+- name: Создаю папку для шары
+  ansible.builtin.file:
+    path: /mnt/SharedDocs/{{ dst_share_name }}
+    state: directory
+
 - name: Сообщение
   debug:
     msg: "{{ script_name }}"
