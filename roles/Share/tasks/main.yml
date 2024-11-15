@@ -26,6 +26,10 @@
     group: root
     mode: '0600'
 
+- name: Сообщение
+  debug:
+    msg: "{{ script_name }}"
+
 # - name: Создаю скрипт для авто монтирования шары {{ srv_name_lower }}{{ share_name_modded }}
 #   ansible.builtin.template:
 #     src: templates/share_script.sh
