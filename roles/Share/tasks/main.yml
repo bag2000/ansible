@@ -13,14 +13,13 @@
 
 - name: Создаю новый ключ
   ansible.builtin.expect:
-    **command: ktutil
     responses:
       ktutil:
         - "addent -password -p {{ kytab_user }} -k 1 -e rc4-hmac"
         - "{{ key_tab_pass }}"
         - "wkt /etc/krb5-2.keytab"
         - "q"
-      Password(.*): "{{ passw }}"**
+      Password: "{{ key_tab_pass }}"
 
 # - name: Создаю скрипт для авто монтирования шары {{ srv_name_lower }}{{ share_name_modded }}
 #   ansible.builtin.template:
