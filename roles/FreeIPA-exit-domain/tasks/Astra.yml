@@ -10,11 +10,6 @@
   register: check_freipa_client_in_domain
   changed_when: false
 
-- name: Сообщение
-  ansible.builtin.debug:
-    msg: 'ПК не в домене'
-  when: check_freipa_client_package.stdout == '1' or check_freipa_client_in_domain.stdout == '1'
-
 - name: Вывод из домена
   when: check_freipa_client_package.stdout == '1' and check_freipa_client_in_domain.stdout == '1'
   block:
