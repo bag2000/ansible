@@ -3,4 +3,15 @@
   roles:
     - "../FreeIPA-sssd"
   vars:
-    clear_sssd_cache: "n"     # нужно ли, чистить (удалять) кэш
+    clear_sssd_cache: "n"     # нужно ли, чистить (удалять) кэш sssd
+
+    # ipa_domain              # Домен IPA, ipa.ex.com
+    # ipa_realm               # Домен IPA, IPA.EX.COM
+    # ipa1_name               # Название сервера ipa1, ipa1.ex.com
+    # ipa2_name               # Название сервера ipa2, ipa2.ex.com
+
+    # ad_domain               # Домен AD, ex.com
+    # ad_realm                # Домен AD, EX.COM
+    # dc01_name               # Название сервера ad1, dc-01.ex.com
+    # dc02_name               # Название сервера ad2, dc-02.ex.com
+
