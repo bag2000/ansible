@@ -1,13 +1,22 @@
 ---
 - name: Устанавливаю cifs-utils
   ansible.builtin.package:
-    name: cifs-utils
+    name:
+      - cifs-utils
+      # - heimdal-clients
     state: present
 
-- name: Создаю скрипт для авто монтирования шары {{ srv_name_lower }}{{ share_name_modded }}
-  ansible.builtin.template:
-    src: templates/share_script.sh
-    dest: /etc/profile.d/{{ script_name }}.sh
-    owner: root
-    group: root
-    mode: '0755'
+- name: Удаляю старый ключ
+  ansible.builtin.file:
+    state: absent
+    path: /etc/krb5-2.keytab
+
+
+
+# - name: Создаю скрипт для авто монтирования шары {{ srv_name_lower }}{{ share_name_modded }}
+#   ansible.builtin.template:
+#     src: templates/share_script.sh
+#     dest: /etc/profile.d/{{ script_name }}.sh
+#     owner: root
+#     group: root
+#     mode: '0755'
