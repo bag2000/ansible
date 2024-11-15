@@ -10,15 +10,13 @@
     state: absent
     path: /etc/krb5-2.keytab
 
-- name: Создаю новый ключ
-  ansible.builtin.expect:
-    command: ktutil
-    responses:
-      ktutil:
-        - "addent -password -p {{ kytab_user }} -k 1 -e rc4-hmac"
-        - "wkt /etc/krb5-2.keytab"
-        - "q"
-      Password(.*): "{{ key_tab_pass }}"
+- name: Копирую билет
+  ansible.builtin.copy:
+    src: files/ticket
+    dest: /etc/krb5-2.keytab
+    owner: root
+    group: root
+    mode: '0600'
 
 # - name: Создаю скрипт для авто монтирования шары {{ srv_name_lower }}{{ share_name_modded }}
 #   ansible.builtin.template:
