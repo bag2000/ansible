@@ -3,7 +3,7 @@
   roles:
     - "../Share"
   vars:
-    kytab_user: 'test-user@T8.CORP'
+    kytab_user: "test-user@T8.CORP"
     srv_name: "DFS2.t8.corp"            # Название сервера шары, полное
     share_name: '\15_Proizvodstvo'      # Название шары, вместе со слешем
 
