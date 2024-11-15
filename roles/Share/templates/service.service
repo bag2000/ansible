@@ -1,0 +1,14 @@
+[Unit]
+Description=Mount shares
+After=network.target
+
+[Service]
+User=root
+Type=simple
+WorkingDirectory=/root/scripts
+ExecStart=/usr/bin/python3 /root/scripts/mount-shares.py
+Restart=on-failure
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target

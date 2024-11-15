@@ -3,7 +3,6 @@
   ansible.builtin.package:
     name:
       - cifs-utils
-      # - heimdal-clients
     state: present
 
 - name: Удаляю старый ключ
