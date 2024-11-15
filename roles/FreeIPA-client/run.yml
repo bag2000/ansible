@@ -4,8 +4,19 @@
     - "../FreeIPA-client"
     - "../FreeIPA-sssd"
   vars:
-    conn: "Проводное соединение 1"
-    need_reboot_sssd: "y"
-    dnsmask_install: "y"
+    conn: "Проводное соединение 1"          # Название интернет соединения в Астра (Network Manager)
+    clear_sssd_cache: "y"                   # Чистить ли кэш (удалять) sssd
+    dnsmask_install: "y"                    # Устанавливать ли dnsmask
+    set_network: "y"                        # Настраивать ли сеть (Network Manager DNS 127.0.0.1)
     dst_host: "{{ inventory_hostname }}"    # Название сервера для роли FreeIPA-add-groups-rules
+
+    # ipa_domain              # Домен IPA, ipa.ex.com
+    # ipa_realm               # Домен IPA, IPA.EX.COM
+    # ipa1_name               # Название сервера ipa1, ipa1.ex.com
+    # ipa2_name               # Название сервера ipa2, ipa2.ex.com
+
+    # ad_domain               # Домен AD, ex.com
+    # ad_realm                # Домен AD, EX.COM
+    # dc01_name               # Название сервера ad1, dc-01.ex.com
+    # dc02_name               # Название сервера ad2, dc-02.ex.com
     
