@@ -44,10 +44,8 @@
     - reload systemctl
 
 - name: Запускаю службу
-  service:
-    name: "{{ script_name }}.service"
-    state: started
-    enabled: true
+  ansible.builtin.command:
+    cmd: systemctl enable --now {{ script_name }}.service
 
 - name: Сообщение
   debug:
