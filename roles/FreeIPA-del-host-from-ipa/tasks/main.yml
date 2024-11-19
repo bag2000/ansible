@@ -1,7 +1,10 @@
 ---
-- name: 123
+- name: aaa
+  command: "hostname"
+  register: txt
+- name: "111"
   debug:
-    msg: "{{ ipa1_name }}"
+    msg: "{{ txt.stdout }}"
 
 - name: Удаляю хост из IPA
   community.general.ipa_host:
