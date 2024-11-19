@@ -78,6 +78,10 @@
   register: domain_check
   changed_when: false
 
+- name: domain_check
+  debug:
+    msg: "{{ domain_check.stdout }}"
+
 - name: Ввожу ПК в домен
   ansible.builtin.command:
     cmd: ipa-client-install --principal=admin  --password={{ ipa_admin_pass }} --mkhomedir --ssh-trust-dns --enable-dns-updates --unattended
