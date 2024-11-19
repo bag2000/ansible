@@ -74,7 +74,7 @@
       - "{{ dc02_ip }} {{ dc02_name }}"
 
 - name: Проверяю, находится ли ПК в домене
-  ansible.builtin.shell: "grep -c {{ ipa_domain }} /etc/ipa/default.conf 2> /dev/null"
+  ansible.builtin.shell: "grep -sc {{ ipa_domain }} /etc/ipa/default.conf"
   register: domain_check
   changed_when: false
 
