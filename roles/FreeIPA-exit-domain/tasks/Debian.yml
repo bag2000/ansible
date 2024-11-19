@@ -1,0 +1,15 @@
+---
+- name: Вывод из домена
+  block:
+    - name: Вывожу ПК из домена
+      ansible.builtin.shell: 'ipa-client-install --uninstall --unattended'
+      changed_when: false
+      register: exit_domain_output
+
+    - name: Сообщение
+      debug:
+        msg: "{{ exit_domain_output.stdout }}"
+
+    - name: Перезагружаю ПК
+      ansible.builtin.reboot:
+        reboot_timeout: 3600
