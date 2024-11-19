@@ -1,1 +1,14 @@
 ---
+- name: Меняю имя ОС
+  ansible.builtin.hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: Обновляю репозитории
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Устанавливаю freeipa-client
+  ansible.builtin.apt:
+    name:
+      - freeipa-client
+    state: present
