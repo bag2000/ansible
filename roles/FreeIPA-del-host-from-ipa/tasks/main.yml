@@ -4,4 +4,5 @@
     name: "{{ inventory_hostname }}"
     state: absent
     validate_certs: false
+    ipa_user: admin
     ipa_pass: "{{ ipa_admin_pass }}"
