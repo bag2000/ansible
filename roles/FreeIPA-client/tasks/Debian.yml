@@ -74,7 +74,7 @@
       - "{{ dc02_ip }} {{ dc02_name }}"
 
 - name: Проверяю, находится ли ПК в домене
-  ansible.builtin.shell: "grep {{ ipa_domain }} /etc/ipa/default.conf; exit 0"
+  ansible.builtin.shell: "grep {{ ipa_realm }} /etc/ipa/default.conf; exit 0"
   register: domain_check
   changed_when: false
 
@@ -85,4 +85,4 @@
 - name: Ввожу ПК в домен
   ansible.builtin.command:
     cmd: ipa-client-install --principal=admin  --password={{ ipa_admin_pass }} --mkhomedir --ssh-trust-dns --enable-dns-updates --unattended
-  when: '"{{ ipa_domain }}" not in domain_check.stdout'
+  when: '"1" not in domain_check.stdout'
