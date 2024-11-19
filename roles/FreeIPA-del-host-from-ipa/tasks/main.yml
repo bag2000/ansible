@@ -1,7 +1,7 @@
 ---
 - name: 123
   debug:
-    msg: "{{ ipa1_name }}
+    msg: "{{ ipa1_name }}"
 
 - name: Удаляю хост из IPA
   community.general.ipa_host:
