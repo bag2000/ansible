@@ -36,7 +36,7 @@
     mode: '0600'
   notify: restart rsyslog
 
-- name: Добавляем контроллеры ipa и dc в hosts
+- name: Добавляем настройку в common-session
   lineinfile:
     path: /etc/pam.d/common-session
     line: "session optional pam_exec.so /bin/bash /etc/scripts/audit_custom.sh"
