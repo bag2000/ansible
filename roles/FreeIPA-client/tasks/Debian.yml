@@ -84,5 +84,5 @@
 
 - name: Ввожу ПК в домен
   ansible.builtin.command:
-    cmd: ipa-client-install --principal=admin  --password={{ ipa_admin_pass }} --mkhomedir --ssh-trust-dns --enable-dns-updates --no-ntp --unattended
+    cmd: ipa-client-install --principal=admin --password={{ ipa_admin_pass }} --mkhomedir --ssh-trust-dns --enable-dns-updates --no-ntp --domain={{ ipa_domain }} --server={{ ipa1_name }} --unattended
   when: '"1" not in domain_check.stdout'
