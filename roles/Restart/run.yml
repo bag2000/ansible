@@ -3,4 +3,5 @@
   roles:
     - "../Restart"
   vars:
-    need_reboot: "no"
+    need_reboot: "n"
+    reset_swap: "n"

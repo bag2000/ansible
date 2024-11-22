@@ -10,9 +10,10 @@
   ansible.builtin.shell:
     cmd: 'sync; echo 1 > /proc/sys/vm/drop_caches'
 
-# - name: Сбрасываю своп
-#   ansible.builtin.shell:
-#     cmd: 'swapoff -a; swapon -a'
+- name: Сбрасываю своп
+  ansible.builtin.shell:
+    cmd: 'swapoff -a; swapon -a'
+  when: reset_swap == "y"
   
 - name: Запускаю службы
   ansible.builtin.service:
