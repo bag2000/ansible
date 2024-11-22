@@ -1,4 +1,42 @@
 ---
-- name: Test
-  debug:
-    msg: hello
+- name: Создаю папку для скриптов
+  ansible.builtin.file:
+    path: /etc/scripts
+    state: directory
+    mode: '0600'
+
+- name: Создаю скрипт audit_custom.sh
+  ansible.builtin.template:
+    src: templates/audit_custom.sh
+    dest: /etc/scripts/audit_custom.sh
+    owner: root
+    group: root
+    mode: '0700'
+
+- name: Создаю пустой лог файл
+  copy:
+    content: ""
+    dest: /var/log/audit_custom.log
+    force: false
+    group: root
+    owner: root
+    mode: 0644
+
+- name: Устанавливаем rsyslog
+  ansible.builtin.package:
+    name: rsyslog
+    state: present
+
+- name: Создаю конфиг audit_custom.conf для rsyslog
+  ansible.builtin.template:
+    src: templates/audit_custom.conf
+    dest: /etc/rsyslog.d/audit_custom.conf
+    owner: root
+    group: root
+    mode: '0600'
+  notify: restart rsyslog
+
+- name: Добавляем контроллеры ipa и dc в hosts
+  lineinfile:
+    path: /etc/pam.d/common-session
+    line: "session optional pam_exec.so /bin/bash /etc/scripts/audit_custom.sh"
