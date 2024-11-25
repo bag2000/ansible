@@ -40,6 +40,12 @@
         mode: '0644'
       notify: restart dnsmasq
 
+    - name: Отключаю systemd-resolved
+      ansible.builtin.service:
+        name: systemd-resolved
+        state: stopped
+        enabled: false
+
 - name: Настраиваю сеть
   when: set_network == "y"
   block:
