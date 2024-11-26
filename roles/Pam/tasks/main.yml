@@ -22,19 +22,19 @@
     owner: root
     mode: 0644
 
-- name: Устанавливаем rsyslog
-  ansible.builtin.package:
-    name: rsyslog
-    state: present
+# - name: Устанавливаем rsyslog
+#   ansible.builtin.package:
+#     name: rsyslog
+#     state: present
 
-- name: Создаю конфиг audit_custom.conf для rsyslog
-  ansible.builtin.template:
-    src: templates/audit_custom.conf
-    dest: /etc/rsyslog.d/audit_custom.conf
-    owner: root
-    group: root
-    mode: '0600'
-  notify: restart rsyslog
+# - name: Создаю конфиг audit_custom.conf для rsyslog
+#   ansible.builtin.template:
+#     src: templates/audit_custom.conf
+#     dest: /etc/rsyslog.d/audit_custom.conf
+#     owner: root
+#     group: root
+#     mode: '0600'
+#   notify: restart rsyslog
 
 - name: Добавляем настройку в common-session
   lineinfile:
