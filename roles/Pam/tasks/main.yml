@@ -39,4 +39,4 @@
 - name: Добавляем настройку в common-session
   lineinfile:
     path: /etc/pam.d/common-session
-    line: "session optional pam_exec.so /bin/bash /etc/scripts/audit_custom.sh"
+    line: "session optional pam_exec.so /usr/bin/python3 /etc/scripts/audit_custom.py"
