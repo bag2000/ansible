@@ -7,8 +7,8 @@
 
 - name: Создаю скрипт audit_custom.sh
   ansible.builtin.template:
-    src: templates/audit_custom.sh
-    dest: /etc/scripts/audit_custom.sh
+    src: templates/audit_custom.py
+    dest: /etc/scripts/audit_custom.py
     owner: root
     group: root
     mode: '0700'
