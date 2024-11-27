@@ -1,9 +1,20 @@
+import socket
 from datetime import datetime
 import subprocess
 import logging
 from logging.handlers import SysLogHandler
 
-sysloghHandlr = SysLogHandler(address=("192.168.39.100", 514))
+sysloghHandlr = SysLogHandler(address=("192.168.39.100", 514), facility='local7')
+
+# Получаем имя хоста
+def get_hostname():
+    return socket.gethostname()
+
+# Поучаем ip адрес
+def get_local_ip():
+    hostname = get_hostname()
+    local_ip = socket.gethostbyname(hostname)
+    return local_ip
 
 # Записываем в лог
 def log_save(msg: str):
@@ -16,10 +27,12 @@ def run_cmd(cmd: str):
     stdout, stderr = ps.communicate()
     stdout = stdout.decode("utf-8")
     stderr = stderr.decode("utf-8")
+
     out = {
         "stdout": stdout,
         "stderr": stderr
     }
+
     return out
 
 # Получаем имена (list) всех интерфейсов
@@ -47,8 +60,7 @@ if pam_type == "open_session":
 else:
     session="logout"
 
-hostname = run_cmd('hostname')['stdout'].strip()
-#user = run_cmd('whoami')['stdout'].strip()
+#hostname = run_cmd('hostname')['stdout'].strip()
 date = datetime.today().strftime('%d.%m.%Y %H:%M:%S')
 tty = run_cmd("echo $PAM_TTY")['stdout'].strip()
 service = run_cmd("echo $PAM_SERVICE")['stdout'].strip()
@@ -60,9 +72,11 @@ else:
 
 # Отправляем лог, если имя пользователя не gdm (login manager)
 if user != "gdm":
-    log = f'{date} {hostname} {user} {session} {tty} {service}; {eth_full}\n'
-    #log_save(log)
+    hostname = get_hostname()
+    log = f'login_audit {date} {hostname} {user} {session} {tty} {service}; {eth_full}\n'
+    log_save(log)
     logger = logging.getLogger()
+    sysloghHandlr.ident = get_local_ip()
     logger.addHandler(sysloghHandlr)
     logger.setLevel(logging.INFO)
     logger.info(f" {log} ")
