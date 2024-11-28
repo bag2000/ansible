@@ -40,3 +40,8 @@
   lineinfile:
     path: /etc/pam.d/common-session
     line: "session optional pam_exec.so /usr/bin/python3 /etc/scripts/audit_custom.py"
+
+- name: Добавляем настройку в sudo
+  lineinfile:
+    path: /etc/pam.d/sudo
+    line: "session optional pam_exec.so /usr/bin/python3 /etc/scripts/audit_custom.py"
