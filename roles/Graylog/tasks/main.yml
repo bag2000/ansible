@@ -1,0 +1,17 @@
+# - name: Скачиваю graylog-sidecar
+#   ansible.builtin.get_url:
+#     url: https://github.com/Graylog2/collector-sidecar/releases/download/1.5.0/graylog-sidecar_1.5.0-1_amd64.deb
+#     dest: /tmp/graylog-sidecar_1.5.0-1_amd64.deb
+
+- name: Устанавливаю graylog-sidecar
+  ansible.builtin.apt:
+    deb: "{{ graylog_sidecar_url }}"
+
+- name: Создаю конфиг sidecar.yml
+  ansible.builtin.template:
+    src: templates/sidecar.yml
+    dest: /etc/graylog/sidecar/sidecar.yml
+    owner: root
+    group: root
+    mode: '0644'
+
