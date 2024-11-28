@@ -20,7 +20,7 @@
 
 - name: Print service facts
   ansible.builtin.debug:
-    var: ansible_facts.services
+    var: ansible_facts.services["graylog-sidecar.service"]
 
 - debug:
     msg: graylog-sidecar installed!
