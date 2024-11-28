@@ -13,7 +13,7 @@
   debug:
     msg: "hello"
   when:
-    - "'1' in sidecar_installed"
+    - "'0' in sidecar_installed"
 
 - name: Создаю конфиг sidecar.yml
   ansible.builtin.template:
