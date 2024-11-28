@@ -40,12 +40,6 @@
         mode: '0644'
       notify: restart dnsmasq
 
-    - name: Отключаю systemd-resolved
-      ansible.builtin.service:
-        name: systemd-resolved
-        state: stopped
-        enabled: false
-
 - name: Настраиваю сеть
   when: set_network == "y"
   block:
@@ -92,3 +86,9 @@
   ansible.builtin.shell:
     cmd: ipa-client-install --principal=admin --password={{ ipa_admin_pass }} --mkhomedir --ssh-trust-dns --enable-dns-updates --no-ntp --domain={{ ipa_domain }} --server={{ ipa1_name }} --unattended
   when: '"1" not in domain_check.stdout'
+
+- name: Отключаю systemd-resolved
+  ansible.builtin.service:
+    name: systemd-resolved
+    state: stopped
+    enabled: false
