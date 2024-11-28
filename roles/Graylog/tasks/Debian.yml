@@ -7,9 +7,10 @@
     msg: "{{ ansible_facts.packages['graylog-sidecar'] | length }} versions of foobar are installed!"
   when: "'graylog-sidecar' in ansible_facts.packages"
 
-# - name: Устанавливаю graylog-sidecar
-#   ansible.builtin.apt:
-#     deb: "{{ graylog_sidecar_url }}"
+- name: Устанавливаю graylog-sidecar
+  ansible.builtin.apt:
+    deb: "{{ graylog_sidecar_url }}"
+  when: "'graylog-sidecar' not in ansible_facts.packages"
 
 # - name: Создаю конфиг sidecar.yml
 #   ansible.builtin.template:
