@@ -12,11 +12,14 @@
 #     deb: "{{ filebeat_url }}"
   # when: "'graylog-sidecar' not in ansible_facts.packages"
 
-- name: Download foo.conf
+- name: Скачиваю filebeat
   ansible.builtin.get_url:
-    url: "https://mirror.yandex.ru/mirrors/elastic/8/pool/main/f/filebeat/filebeat-8.16.1-amd64.deb"
-    dest: /tmp/filebeat-8.16.1-amd64.deb
+    url: "{{ filebeat_url }}"
+    dest: /tmp/filebeat.deb
 
+- name: Устанавливаю filebeat
+  ansible.builtin.apt:
+    deb: /tmp/filebeat.deb
 
 # - name: Создаю конфиг sidecar.yml
 #   ansible.builtin.template:
