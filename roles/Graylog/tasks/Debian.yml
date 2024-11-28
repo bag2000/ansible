@@ -14,3 +14,10 @@
     owner: root
     group: root
     mode: '0644'
+
+- name: Populate service facts
+  service_facts:
+
+- debug:
+    msg: graylog-sidecar installed!
+  when: "'graylog-sidecar' in services"
