@@ -20,7 +20,7 @@
 
 - debug:
     msg: graylog-sidecar installed!
-  when: "'graylog-sidecar' not in ansible_facts.services"
+  when: "'graylog-sidecar.service' not in ansible_facts.services"
 
 - name: Устанавливаю службу graylog-sidecar
   ansible.builtin.command: graylog-sidecar -service install
