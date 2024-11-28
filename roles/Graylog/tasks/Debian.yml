@@ -25,6 +25,6 @@
 - name: Устанавливаю службу graylog-sidecar
   ansible.builtin.command: graylog-sidecar -service install
   when: 
-    - "'graylog-sidecar' not in ansible_facts.services"
+    - "'graylog-sidecar.service' not in ansible_facts.services"
     - "'graylog-sidecar' in ansible_facts.packages"
 
