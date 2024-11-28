@@ -1,4 +1,4 @@
-# from datetime import datetime
+from datetime import datetime
 import socket
 import subprocess
 
@@ -55,7 +55,7 @@ else:
     session="logout"
 
 #hostname = run_cmd('hostname')['stdout'].strip()
-#date = datetime.today().strftime('%d.%m.%Y %H:%M:%S')
+date = datetime.today().strftime('%d.%m.%Y %H:%M:%S')
 tty = run_cmd("echo $PAM_TTY")['stdout'].strip()
 service = run_cmd("echo $PAM_SERVICE")['stdout'].strip()
 
@@ -68,6 +68,6 @@ else:
 # Отправляем лог, если имя пользователя не gdm (login manager)
 if user != "gdm":
     hostname = get_hostname()
-    log = f'login_audit {user} {session} {tty} {service}; {eth_full}\n'
+    log = f'login_audit {date} {user} {session} {tty} {service}; {eth_full}\n'
     log_save(log)
     
