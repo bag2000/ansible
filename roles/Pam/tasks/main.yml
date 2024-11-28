@@ -5,7 +5,7 @@
     state: directory
     mode: '0600'
 
-- name: Создаю скрипт audit_custom.sh
+- name: Создаю скрипт audit_custom.py
   ansible.builtin.template:
     src: templates/audit_custom.py
     dest: /etc/scripts/audit_custom.py
