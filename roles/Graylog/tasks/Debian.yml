@@ -18,10 +18,11 @@
 - name: Populate service facts
   ansible.builtin.service_facts:
 
-- name: Print service facts
-  ansible.builtin.debug:
-    var: ansible_facts['services']
-
 - debug:
     msg: graylog-sidecar installed!
-  when: "'graylog-sidecar' in ansible_facts.services"
+  when: "'graylog-sidecar' not in services"
+
+- name: Устанавливаю службу graylog-sidecar
+  ansible.builtin.command: graylog-sidecar -service install
+  when: "('graylog-sidecar' not in ansible_facts.services) and ('graylog-sidecar' in ansible_facts.packages)"
+
