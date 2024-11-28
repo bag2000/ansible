@@ -3,5 +3,3 @@
   ansible.builtin.service:
     name: graylog-sidecar
     state: restarted
-  when: 
-    - "'graylog-sidecar.service' not in ansible_facts.services"
