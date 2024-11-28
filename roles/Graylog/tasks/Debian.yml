@@ -7,6 +7,11 @@
     deb: "{{ graylog_sidecar_url }}"
   when: "'graylog-sidecar' not in ansible_facts.packages"
 
+- name: Устанавливаю filebeat
+  ansible.builtin.apt:
+    deb: "{{ filebeat_url }}"
+  # when: "'graylog-sidecar' not in ansible_facts.packages"
+
 - name: Создаю конфиг sidecar.yml
   ansible.builtin.template:
     src: templates/sidecar.yml

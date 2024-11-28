@@ -6,4 +6,5 @@
     # server_url: "http://xxx.xxx.xxx.xxx:9000/api/"
     # server_api_token: "dasdasdsd..."
     # graylog_sidecar_url: "https://github.com/Graylog2/collector-sidecar/releases/download/1.5.0/graylog-sidecar_1.5.0-1_amd64.deb"
+    # filebeat_url: "https://mirror.yandex.ru/mirrors/elastic/8/pool/main/f/filebeat/filebeat-8.16.1-amd64.deb"
     tags: "user_linux"
