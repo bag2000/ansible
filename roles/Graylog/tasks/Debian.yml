@@ -1,6 +1,6 @@
-# - name: Собираем данные об установленных пакетах
-#   ansible.builtin.package_facts:
-#     manager: auto
+- name: Собираем данные об установленных пакетах
+  ansible.builtin.package_facts:
+    manager: auto
 
 # - name: Устанавливаю graylog-sidecar
 #   ansible.builtin.apt:
