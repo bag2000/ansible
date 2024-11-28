@@ -1,0 +1,7 @@
+---
+- name: restart sidecar
+  ansible.builtin.service:
+    name: graylog-sidecar
+    state: restarted
+  # when:
+    
