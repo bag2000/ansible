@@ -11,4 +11,4 @@ node_name: "{{ inventory_hostname }}"
 
 # A list of tags to assign to this sidecar. Collector configuration matching any of these tags will automatically be
 # applied to the sidecar.
-tags: '["{{ tags }}"]'
+tags: ["{{ tags }}"]
