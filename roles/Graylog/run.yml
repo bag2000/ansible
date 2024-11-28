@@ -7,4 +7,3 @@
     # server_api_token: "dasdasdsd..."
     # graylog_sidecar_url: "https://github.com/Graylog2/collector-sidecar/releases/download/1.5.0/graylog-sidecar_1.5.0-1_amd64.deb"
     tags: "user_linux"
-    sidecar_installed: "0"
