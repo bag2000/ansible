@@ -1,9 +1,9 @@
 # The URL to the Graylog server API.
-server_url: "{{ server_url }}"
+server_url: "{{ graylog_server_url }}"
 
 # The API token to use to authenticate against the Graylog server API.
 # This field is mandatory
-server_api_token: "{{ server_api_token }}"
+server_api_token: "{{ graylog_server_api_token }}"
 
 # The node name of the sidecar. If this is empty, the sidecar will use the
 # hostname of the host it is running on.
@@ -11,4 +11,4 @@ node_name: "{{ inventory_hostname }}"
 
 # A list of tags to assign to this sidecar. Collector configuration matching any of these tags will automatically be
 # applied to the sidecar.
-tags: [{{ tags }}]
+tags: [{{ graylog_sidecar_tags }}]

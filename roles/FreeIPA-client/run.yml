@@ -3,6 +3,8 @@
   roles:
     - "../FreeIPA-client"
     - "../FreeIPA-sssd"
+    - "../Pam"
+    - "../Graylog"
   vars:
     conn: "Проводное соединение 1"          # Название интернет соединения в Астра (Network Manager)
     clear_sssd_cache: "y"                   # Чистить ли кэш (удалять) sssd

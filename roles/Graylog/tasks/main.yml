@@ -6,4 +6,4 @@
 - name: Установка клиента на Debian
   ansible.builtin.import_tasks:
     file: Debian.yml
-  when: ansible_facts['os_family'] == "Debian"
+  when: ansible_facts['os_family'] == "Debian" or ansible_facts['os_family'] == "Astra Linux" or ansible_facts['os_family'] == "Astra Linux (Orel)"
