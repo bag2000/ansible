@@ -11,7 +11,7 @@
     dnsmask_install: "y"                    # Устанавливать ли dnsmask
     set_network: "y"                        # Настраивать ли сеть (Network Manager DNS 127.0.0.1)
     dst_host: "{{ inventory_hostname }}"    # Название сервера для роли FreeIPA-add-groups-rules
-
+    graylog_sidecar_tags: '"audit_custom_linux", "sssd_linux"'
     # ipa_domain              # Домен IPA, ipa.ex.com
     # ipa_realm               # Домен IPA, IPA.EX.COM
     # ipa1_name               # Название сервера ipa1, ipa1.ex.com
