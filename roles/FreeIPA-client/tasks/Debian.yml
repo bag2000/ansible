@@ -48,15 +48,15 @@
         cmd: nmcli con mod "{{ conn }}" ipv4.dns "127.0.0.1"
       when: '"127.0.0.1" not in dns_check.stdout'
 
-    - name: Отключаю systemd-resolved
-      ansible.builtin.service:
-        name: systemd-resolved
-        state: stopped
-        enabled: false
+    # - name: Отключаю systemd-resolved
+    #   ansible.builtin.service:
+    #     name: systemd-resolved
+    #     state: stopped
+    #     enabled: false
 
-    - name: Перезагружаю ПК
-      ansible.builtin.reboot:
-      when: '"127.0.0.1" not in dns_check.stdout'
+    # - name: Перезагружаю ПК
+    #   ansible.builtin.reboot:
+    #   when: '"127.0.0.1" not in dns_check.stdout'
 
 - name: Ожидаю восстановления соединения
   ansible.builtin.wait_for_connection:
