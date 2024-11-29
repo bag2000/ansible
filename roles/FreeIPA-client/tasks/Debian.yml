@@ -1,24 +1,4 @@
 ---
-- name: Отключаю systemd-resolved
-  ansible.builtin.service:
-    name: systemd-resolved
-    state: stopped
-    enabled: false
-    
-- name: Меняю имя ОС
-  ansible.builtin.hostname:
-    name: "{{ inventory_hostname }}"
-
-- name: Обновляю репозитории
-  ansible.builtin.apt:
-    update_cache: true
-
-- name: Устанавливаю freeipa-client
-  ansible.builtin.apt:
-    name:
-      - freeipa-client
-    state: present
-
 - name: Настраиваю dnsmasq
   when: dnsmask_install == "y"
   block:
@@ -64,6 +44,12 @@
         cmd: nmcli con mod "{{ conn }}" ipv4.dns "127.0.0.1"
       when: '"127.0.0.1" not in dns_check.stdout'
 
+    - name: Отключаю systemd-resolved
+      ansible.builtin.service:
+        name: systemd-resolved
+        state: stopped
+        enabled: false
+
     - name: Перезагружаю ПК
       ansible.builtin.reboot:
       when: '"127.0.0.1" not in dns_check.stdout'
@@ -71,6 +57,20 @@
 - name: Ожидаю восстановления соединения
   ansible.builtin.wait_for_connection:
 
+- name: Меняю имя ОС
+  ansible.builtin.hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: Обновляю репозитории
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Устанавливаю freeipa-client
+  ansible.builtin.apt:
+    name:
+      - freeipa-client
+    state: present
+    
 - name: Добавляем контроллеры ipa и dc в hosts
   lineinfile:
     path: "/etc/hosts"
