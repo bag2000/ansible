@@ -43,6 +43,14 @@
 - name: Настраиваю сеть
   when: set_network == "y"
   block:
+    - name: Создаю скрипт для перезапуска сетевого соединения
+      ansible.builtin.template:
+        src: templates/restart_network.sh
+        dest: /tmp/restart_network.sh
+        owner: root
+        group: root
+        mode: '0700'
+
     - name: Проверяю DNS
       ansible.builtin.shell: 'nmcli con show "{{ conn }}" | grep "IP4.DNS\[1\]"'
       register: dns_check
@@ -57,11 +65,17 @@
       ansible.builtin.command:
         cmd: nmcli con mod "{{ conn }}" ipv4.dns "127.0.0.1"
       when: '"127.0.0.1" not in dns_check.stdout'
+    
+    - name: Перезапускаю сетевое соединение
+      ansible.builtin.command: /bin/bash /tmp/restart_network.sh
 
-    - name: Перезагружаю ПК
-      ansible.builtin.reboot:
-        reboot_timeout: 3600
-      when: '"127.0.0.1" not in dns_check.stdout'
+    - name: Ожидаю восстановления соединения
+      ansible.builtin.wait_for_connection:
+
+    # - name: Перезагружаю ПК
+    #   ansible.builtin.reboot:
+    #     reboot_timeout: 3600
+    #   when: '"127.0.0.1" not in dns_check.stdout'
 
 - name: Добавляем контроллеры ipa и dc в hosts
   lineinfile:
