@@ -108,7 +108,6 @@
 
 - name: Перезагружаю ПК
   ansible.builtin.reboot:
-  when: '"127.0.0.1" not in dns_check.stdout'
 
 - name: Ожидаю восстановления соединения
   ansible.builtin.wait_for_connection:
