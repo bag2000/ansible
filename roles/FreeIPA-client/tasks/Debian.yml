@@ -48,15 +48,9 @@
         cmd: nmcli con mod "{{ conn }}" ipv4.dns "127.0.0.1"
       when: '"127.0.0.1" not in dns_check.stdout'
 
-    # - name: Отключаю systemd-resolved
-    #   ansible.builtin.service:
-    #     name: systemd-resolved
-    #     state: stopped
-    #     enabled: false
-
-    # - name: Перезагружаю ПК
-    #   ansible.builtin.reboot:
-    #   when: '"127.0.0.1" not in dns_check.stdout'
+    - name: Перезагружаю ПК
+      ansible.builtin.reboot:
+      when: '"127.0.0.1" not in dns_check.stdout'
 
 - name: Ожидаю восстановления соединения
   ansible.builtin.wait_for_connection:
@@ -64,6 +58,10 @@
 - name: Меняю имя ОС
   ansible.builtin.hostname:
     name: "{{ inventory_hostname }}"
+
+- name: Устанавливаю python модуль cryptography
+  ansible.builtin.pip:
+    name: cryptography==37.0.4
 
 - name: Устанавливаю freeipa-client
   ansible.builtin.apt:
@@ -94,3 +92,16 @@
   ansible.builtin.shell:
     cmd: ipa-client-install --principal=admin --password={{ ipa_admin_pass }} --mkhomedir --ssh-trust-dns --enable-dns-updates --no-ntp --domain={{ ipa_domain }} --server={{ ipa1_name }} --unattended
   when: '"1" not in domain_check.stdout'
+
+- name: Отключаю systemd-resolved
+  ansible.builtin.service:
+    name: systemd-resolved
+    state: stopped
+    enabled: false
+
+- name: Перезагружаю ПК
+  ansible.builtin.reboot:
+  when: '"127.0.0.1" not in dns_check.stdout'
+
+- name: Ожидаю восстановления соединения
+  ansible.builtin.wait_for_connection:
